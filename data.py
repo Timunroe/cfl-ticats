@@ -7,7 +7,7 @@ import fetch
 import model
 import config as cfg
 
-# Put <script src="https://picabot.s3.amazonaws.com/pagejs/spec_prov_elxn.js"></script> in DNN footer
+# Put <script src="https://picabot.s3.amazonaws.com/pagejs/ticats_spec.js"></script> in DNN footer
 # put <div class="pica-results"></div> in DNN body
 
 
@@ -26,6 +26,7 @@ def save_file_overwrite(s_contents, s_name):
 
 
 def build_template():
+    # NEED TO CREATE BUILD DIRECTOR IF IT DOESN'T EXIST!!!
     print("Building template for DNN")
     template_data = {"posts": model.get_lineup()}
     html = Environment().from_string(tmpl.core_template).render(data=template_data)

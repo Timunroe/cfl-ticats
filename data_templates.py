@@ -41,87 +41,48 @@ core_template = '''\
     </article>
 {% endmacro %}
 
-<!-- STATIC HEADER -->
+<!--STATS HEADER START-->
+<section id="stats_header" style="margin-bottom: 0.5rem;" class="mb2">
 
-<!-- START TABS CONTROLS-->
-<section pica-tabs-section>
-<ul class="pica-tab-controls" style="" data-tab-block="1">
-    <li class="pica-tab-control" data-tab="1" data-tab-default="yes">Next matches</li>
-    <li class="pica-tab-control" data-tab="2">Previous</li>
-    <li class="pica-tab-control" data-tab="3">Podcasts</li>
-</ul>
-<!-- START TABS PANELS-->
-<div class="pica-tab-panels" data-tab-block="1">
-    <div class="pica-tab-panel" data-tab="1">
-        <p><small>All times Eastern</small></p>
-        <div class="pica-tab-panel_items" style="display: flex; flex-wrap: wrap; margin: 0 -10px 0 -10px;">
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">WEDNESDAY, JUNE 20</h3>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331511/#match-liveblog?cid=go_boxpreview">Portugal 1, Morroco 0</a></p>
-                <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/iCIlEbZWITI' frameborder='0' allowfullscreen></iframe></div>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331530/#match-liveblog?cid=go_boxpreview">Uruguay 1, Saudi Arabia 0</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331496/#match-liveblog?cid=go_boxpreview">Iran vs. Spain, 2 p.m.</a></p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">THURSDAY, JUNE 21</h3>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331518/#match-liveblog?cid=go_boxpreview">Denmark vs. Australia, 8 a.m.</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331527/#match-liveblog?cid=go_boxpreview">France vs. Peru, 11 a.m.</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331513/#match-liveblog?cid=go_boxpreview">Argentina vs. Croatia, 2 p.m.</a></p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">FRIDAY, JUNE 22</h3>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331540/#match-liveblog?cid=go_boxpreview">Brazil vs. Costa Rica, 8 a.m.</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331497/#match-liveblog?cid=go_boxpreview">Nigeria vs. Iceland, 11 a.m.</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300340183/#match-liveblog?cid=go_boxpreview">Serbia vs. Switzerland, 2 p.m.</a></p>
-            </div>
-        </div>
-    </div>
-    <div class="pica-tab-panel" data-tab="2">
-        <div class="pica-tab-panel_items" style="display: flex; flex-wrap: wrap; margin: 0 -10px 0 -10px;">
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">TUESDAY, JUNE 19</h3>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331550/#match-liveblog?cid=go_boxpreview">Colombia 1, Japan 2</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331545/#match-liveblog?cid=go_boxpreview">Poland 1, Senegal 2</a></p>
-                <p><a href="https://www.fifa.com/worldcup/matches/match/300331495/#match-liveblog?cid=go_boxpreview">Russia 3, Egypt 1</a></p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">MONDAY, JUNE 18</h3>
-                <p>Sweden 1, South Korea 0</p>
-                <p>Belgium 3, Panama 0</p>
-                <p>Tunisa 1, England 2</p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">SUNDAY, JUNE 17</h3>
-                <p>Costa Rica 0, Serbia 1</p>
-                <p>Germany 0, Mexico 1</p>
-                <p>Brazil 1, Switzerland 1</p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">SATURDAY, JUNE 16</h3>
-                <p>France 2, Australia 1</p>
-                <p>Argentina 1, Iceland 1</p>
-                <p>Peru 0, Denmark 1</p>
-                <p>Croatia 2, Nigeria 0</p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">FRIDAY, JUNE 15</h3>
-                <p>Egypt 0, Uruguay 1</p>
-                <p>Morocco 0, Iran 1</p>
-                <p>Portugal 3, Spain 3</p>
-            </div>
-            <div style="flex: 1; min-width: 240px; margin: 0 10px 0 10px; margin-bottom: 6px;">
-                <h3 style="margin-top: 4px; margin-bottom: 2px;">THURSDAY, JUNE 14</h3>
-                <p>Russia 5, Saudi Arabia 0</p>
-            </div>
-        </div>
-    </div>
-    <div class="pica-tab-panel" data-tab="3">
-        <iframe id="multi_iframe" frameborder="0" scrolling="no" allowfullscreen="" src="https://www.podbean.com/media/player/multi?playlist=http%3A%2F%2Fplaylist.podbean.com%2F759247%2Fplaylist_multi.xml&vjs=1&kdsowie31j4k1jlf913=2eb7c0cf1e0b2b2d7e13516349a49cb12aec6af8&size=240&share=1&fonts=Helvetica&auto=0&download=0&rtl=0&skin=3" width="100%" height="430"></iframe>
-    </div>
-</div>
-</section>
-<!-- END TABS -->
-<!-- END STATIC HEADER -->
+    <section id="1" style="padding-bottom: 0.75rem; border" class="pb3 bb b--black-10 sans-serif">
+      <div style="floate: left; margin: 0; font-weight: bold; padding-right: 0.23 rem; text-transform: uppercase;" class="fl f6 ma0 b pr2 ttu">Week 2</div>
+      <div style="display: flex; flex-wrap: wrap;" class="flex flex-wrap">
+        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 21: SSK @ OTT, 7:30pm</div>
+        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 22: WPG @ MTL, 7pm</div>
+        <!-- <div class="f6 ma0 ph2 bl-ns">June 16: HAM @ CGY, 7pm</div> -->
+        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 23: CGY @ TOR, 7pm</div>
+      </div>
+    </section>
+    <!--END 1 -->
+
+    <section id="2" class="flex flex-wrap pt2 pb3 bb b--black-10 sans-serif">
+
+      <div class="br-ns b--black-20 pr3">
+        <p class="agate b mv1 ttu silver">last game</p>
+        <p class="f4 fw2 mv1 flex justify-between"><span class="pr1">Tiger-Cats</span><span>14</span></p>
+        <p class="f4 fw2 mv1 flex justify-between"><span class="pr1">Stampeders</span><span>28</span></p>
+        <p class="f6 mt2 mb0 dn db-ns">June 16 @ Calgary</p>
+      </div>
+
+      <div class="pl3">
+        <p class="agate b mv1 ttu">next game</p>
+        <p class="f4 mv1">Tiger-Cats <small>(0-1)</small></p>
+        <p class="f4 mv1">Eskimos <small>(1-0)</small></p>
+        <p class="f6 mt2 mb0">June 22, 10pm @ Edmonton</p>
+      </div>
+
+      <div class="pl3 dn db-ns">
+        <p class="agate b mv1 ttu silver">How they compare (per game)</p>
+        <p class="f4 fw1 mv1 mt1">14 pts, 56 rushing yards, 385 total yards</p>
+        <p class="f4 fw1 mv1">33 pts, 79 rushing yards, 481 total yards</p>
+        <p class="f6 mt2 mb0 dn db-ns"></p>
+      </div>
+
+    </section>
+    <!--END 2 -->
+
+    </section>
+    <!--STATS HEADER END-->
 <hr>
 <!-- CURATION LIST -->
 <section class="pica-cards">
@@ -159,32 +120,5 @@ var html_string = '$minified';
 var matches = document.querySelectorAll('div.pica-results');
 for (var i=0; i<matches.length; i++)
     matches[i].innerHTML = html_string;
-
-function pica_tabs_handler(e){
-  var tab_id = this.getAttribute('data-tab');
-  var block_id = this.parentNode.getAttribute('data-tab-block');
-  var panel_blocks = document.querySelectorAll('.pica-tab-panels[data-tab-block="' + block_id + '"] .pica-tab-panel');
-  Array.prototype.forEach.call(panel_blocks, function(el, i){
-     el.style.display = 'none'; 
-  });
-  var this_panel = document.querySelectorAll('.pica-tab-panels[data-tab-block="' + block_id + '"] .pica-tab-panel[data-tab="' + tab_id + '"]');
-    Array.prototype.forEach.call(this_panel, function(el, i){
-     el.style.display = 'block' 
-  });
-  var tab_controls = this.parentNode.querySelectorAll('li');
-  Array.prototype.forEach.call(tab_controls, function(el, i){
-    el.className = 'pica-tab-control';
-  });
-  this.className = 'pica-tab-control active';
-}
-
-var tab_controls = document.querySelectorAll('.pica-tab-control');
-Array.prototype.forEach.call(tab_controls, function(el, i){
-   el.addEventListener('click', pica_tabs_handler, false);
-});
-var defaults = document.querySelectorAll('li.pica-tab-control[data-tab-default="yes"]')
-Array.prototype.forEach.call(defaults, function(el, i){
-  el.click();
-});
 
 '''

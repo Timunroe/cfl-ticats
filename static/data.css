@@ -1,25 +1,161 @@
-{% extends '_base.html' %} {% set active_page = 'lineup' %}
+/*
+> Items that need gutters should have postive horizontal margins
+The containing item for above should have negative margins
+> Last item trick with 'pseudo: after' to keep single item in row
+from growing too much.
+> default width for cards should be max width / # of items
+so 800/3 ~ 250px (round down because of margins)
 
-{% block body %}
-<main role="main" class="container">
-    <p>See live page <a href="#" target="_blank">on thespec.com</a>. </p>
-    <h3 class="">Current lineup</h3>
+*/
 
-    <form action="/lineup" method="post">
-        <p>
-            <button type="submit" name="action" class="btn btn-dark" value="save">Update Database</button>
-            <button type="submit" name="action" class="btn btn-primary" value="deploy">Update Website</button>
-            <button type="submit" name="action" class="btn btn-success" value="fetch">Fetch New Data</button>
-        </p>
-        <div class="">
-            {%- for item in data['items'] -%}
-            {% include 'includes/_data_list.html' %}
-            {% endfor %}
-        </div>    
-    </form>
-    <!--     <div class="">
-        <a href="/add_entry" class="btn btn-primary my-2">Add an Entry</a>
-        <a href="/view" class="btn btn-primary my-2">Search/Edit</a>
-    </div> -->
-</main>
-{% endblock %}
+.pica-cards {
+    /* START flex container rules for children pica-card */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    /* Container rules for gutters*/
+    margin: 0 -10px 0px -10px;
+}
+
+.pica-cards:after {
+    content: "";
+    flex: 1 1 250px;
+    margin: 0 10px 10px 10px;
+}
+
+.pica-card {
+    /* Flex item rules */
+    flex: 1 1 250px;
+    /* OPTIONAL if treating card content as media object */
+    /* Flex container rules for children pica-card-xxxx */
+    /*  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;*/
+}
+
+.pica-card-image,
+.pica-card-text {
+    /* Item rules for gutters*/
+    margin: 0 10px 10px 10px;
+    /* OPTIONAL if treating card content as media object */
+    /* Flex item rules */
+    /*  flex: 1 1 200px;*/
+}
+
+.pica-card-text h3 {
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.pica-card-text p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.pica-image-wrapper {
+    /* in conjunction with .pica-image to 
+    limit image to certin width and height
+    but that scales at same ratio
+    */
+    border-radius: .25rem;
+    position: relative;
+    width: 100%;
+    padding:50% 0 0;
+    overflow: hidden;
+    display:inline-block
+}
+
+.pica-image {
+    position:absolute;
+    top:50%;
+    left:50%;
+    max-width:100%;
+    min-width:100%;
+    min-height:100%;
+    width:auto;
+    height:auto;
+    transform:translateX(-50%) translateY(-50%)
+}
+
+.pica-link {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.pica-fade {
+    opacity: 1;
+    transition: opacity .15s ease-in;
+}
+
+.pica-fade:focus,
+.pica-fade:hover {
+    opacity: .5;
+    transition: opacity .15s ease-in;
+}
+
+.pica-fade:active {
+    opacity: .8;
+    transition: opacity .15s ease-out
+}
+
+/* TABS CSS */
+ul.pica-tab-controls {
+    display: flex;
+    flex-wrap: nowrap;
+    cursor: pointer;
+    padding: 0;
+    list-style-type: none; 
+  }
+
+  .pica-tab-panel_items:after {
+    content: "";
+    flex: 1 1 250px;
+    margin: 0 10px 10px 10px;
+  }
+  
+  li.pica-tab-control {
+    flex: 1;
+    font-family: -apple-system, BlinkMacSystemFont, \\\'avenir next\\\', avenir, \\\'helvetica neue\\\', helvetica, ubuntu, roboto, noto, \\\'segoe ui\\\', arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    color: #000;
+    background-color: #CCC;
+    text-transform: uppercase;
+    border-color: rgba(0, 0, 0, .3);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: .25rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    opacity: 1;
+    transition: opacity .15s ease-in;
+  }
+  
+  .pica-tab-control.active {
+    background-color: white;
+    color: #111;
+    border-bottom-width: 0;
+  }
+  
+  .pica-tab-control:hover,
+  .pica-tab-control:focus {
+    opacity: .5;
+    transition: opacity .15s ease-in;
+  }
+  .pica-tab-control:active {
+    opacity: .8; transition: opacity .15s ease-out;
+  }
+
+  .pica-tab-panel {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, .3);
+    border-top-style: none;
+    padding: 0.5rem;
+    padding-top: 1rem;
+}
