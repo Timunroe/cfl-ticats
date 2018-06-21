@@ -24,7 +24,12 @@ def parse_feed(items):
             post['caption_api'] = smartypants.smartypants(item['imageCaption'].strip())
         else:
             post['caption_api'] = ""
-        post['categories_api'] = list(set([item for sublist in item['categoriesSubCategories'] for item in sublist.split('||')]))
+        # NOTE THIS FAILS IF NO SUBCATEGORIES, LIKE A STAFF STORY WITH JUST 'SPORTS'
+        # USE CATEGORIES IN FEED INSTEAD?
+        if 'categoriesSubCategories' in item:    
+            post['categories_api'] = list(set([item for sublist in item['categoriesSubCategories'] for item in sublist.split('||')]))
+        else:
+            post['categories_api'] = ""
         post['desc_api'] = smartypants.smartypants(item['description'].strip())
         post['desc_api'] = " ".join(post['desc_api'].split())
         if item['contentType'] == 'ArticleBlogpost':

@@ -38,10 +38,18 @@ config = {
                 "url": 'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
                 "filter": ["searchResultView"]
             },
-                        {
+            {
                 "url": 'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
                 "filter": ["searchResultView"]
-            }
+            },
+            {
+                "url": 'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
+                "filter": ["searchResultView"]
+            },
+            {
+                "url": 'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
+                "filter": ["searchResultView"]
+            },
     ],
     "munge": []
 }

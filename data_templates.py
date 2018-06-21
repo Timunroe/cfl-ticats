@@ -34,7 +34,7 @@ core_template = '''\
         {% endif %}
         <div class="pica-card-text">
             <a class="pica-link" target="_blank" href="{{ item['link'] }}">
-                <h3 style="margin-top: 8px; margin-bottom: 6px; color: black; font-family: -apple-system, BlinkMacSystemFont, avenir, helvetica, ubuntu, roboto, noto, arial, sans-serif; font-weight: 500;" class="">{{ item['title_api']|safe|replace("WORLD CUP:", "") }}</h3>
+                <h3 style="margin-top: 8px; margin-bottom: 6px;" class="">{{ item['title_api']|safe|replace("WORLD CUP:", "") }}</h3>
                 <p class=""><small style="color: grey;">{{ item['label_user']|safe if item['label_user'] else item['label_api']|safe }}</small></p>
             </a>
         </div>
@@ -44,38 +44,37 @@ core_template = '''\
 <!--STATS HEADER START-->
 <section id="stats_header" style="margin-bottom: 0.5rem;" class="mb2">
 
-    <section id="1" style="padding-bottom: 0.75rem; border" class="pb3 bb b--black-10 sans-serif">
-      <div style="floate: left; margin: 0; font-weight: bold; padding-right: 0.23 rem; text-transform: uppercase;" class="fl f6 ma0 b pr2 ttu">Week 2</div>
-      <div style="display: flex; flex-wrap: wrap;" class="flex flex-wrap">
-        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 21: SSK @ OTT, 7:30pm</div>
-        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 22: WPG @ MTL, 7pm</div>
-        <!-- <div class="f6 ma0 ph2 bl-ns">June 16: HAM @ CGY, 7pm</div> -->
-        <div style="margin: 0; padding-left: 0.25 rem; padding-left: 0.25 rem;" class="f6 ma0 ph2 bl-ns">June 23: CGY @ TOR, 7pm</div>
+    <section style="padding-bottom: 0.8rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: silver; font-family: -apple-system, BlinkMacSystemFont, avenir, \\\'helvetica neue\\\', helvetica, ubuntu, roboto, noto, arial, sans-serif;" class="">
+      <div style="font-size: 0.9rem; float: left; margin: 0; font-weight: 800; padding-right: 0.25rem; text-transform: uppercase;" class="f6">Week 2 | </div>
+      <div style="display: flex; flex-wrap: wrap;" class="">
+        <div style="font-size: 0.9rem; margin: 0; padding-left: 0.25rem; padding-left: 0.25rem;" class="f6 bl-ns">June 21: SSK @ OTT, 7:30pm | </div>
+        <div style="font-size: 0.9rem; margin: 0; padding-left: 0.25rem; padding-left: 0.25rem;" class="f6 bl-ns">June 22: WPG @ MTL, 7pm | </div>
+        <div style="font-size: 0.9rem; margin: 0; padding-left: 0.25rem; padding-left: 0.25rem;" class="f6 bl-ns">June 23: CGY @ TOR, 7pm</div>
       </div>
     </section>
     <!--END 1 -->
 
-    <section id="2" class="flex flex-wrap pt2 pb3 bb b--black-10 sans-serif">
+    <section style="display: flex; flex-wrap: wrap; padding-top: 0.5rem; padding-bottom: 0.75rem; font-family: sans-serif;" class="bb b--black-10">
 
-      <div class="br-ns b--black-20 pr3">
-        <p class="agate b mv1 ttu silver">last game</p>
-        <p class="f4 fw2 mv1 flex justify-between"><span class="pr1">Tiger-Cats</span><span>14</span></p>
-        <p class="f4 fw2 mv1 flex justify-between"><span class="pr1">Stampeders</span><span>28</span></p>
-        <p class="f6 mt2 mb0 dn db-ns">June 16 @ Calgary</p>
+      <div style="padding-right: 0.8rem; border-right-style: solid; border-right-width: 1px; border-bottom-color: silver;" class="">
+        <p style="font-weight: bold; margin-top: 0.25rem; margin-bottom: 0.25rem; text-transform: uppercase; color: silver;" class="agate">last game</p>
+        <p style="font-size: 1.25rem; font-weight: 200; margin-top: 0.25rem; margin-bottom: 0.25rem; display: flex; justify-content: space-between;" class="f4"><span style="padding-right: 0.25rem;" class="">Tiger-Cats</span><span>14</span></p>
+        <p style="font-size: 1.25rem; font-weight: 200; margin-top: 0.25rem; margin-bottom: 0.25rem; display: flex; justify-content: space-between;" class="f4 justify-between"><span style="padding-right: 0.25rem;" class="">Stampeders</span><span>28</span></p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; margin-bottom: 0;" class="dn db-ns">June 16 @ Calgary</p>
       </div>
 
-      <div class="pl3">
-        <p class="agate b mv1 ttu">next game</p>
-        <p class="f4 mv1">Tiger-Cats <small>(0-1)</small></p>
-        <p class="f4 mv1">Eskimos <small>(1-0)</small></p>
-        <p class="f6 mt2 mb0">June 22, 10pm @ Edmonton</p>
+      <div style="padding-left: 0.8rem;" class="">
+        <p style="font-weight: bold; margin-top: 0.25rem; margin-bottom: 0.25rem; text-transform: uppercase;" class="agate">next game</p>
+        <p style="font-size: 1.25rem; font-weight: 400; margin-top: 0.25rem; margin-bottom: 0.25rem;" class="">Tiger-Cats <small>(0-1)</small></p>
+        <p style="font-size: 1.25rem; font-weight: 400; margin-top: 0.25rem; margin-bottom: 0.25rem;" class="">Eskimos <small>(1-0)</small></p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; margin-bottom: 0;" class="">June 22, 10pm @ Edmonton</p>
       </div>
 
-      <div class="pl3 dn db-ns">
-        <p class="agate b mv1 ttu silver">How they compare (per game)</p>
-        <p class="f4 fw1 mv1 mt1">14 pts, 56 rushing yards, 385 total yards</p>
-        <p class="f4 fw1 mv1">33 pts, 79 rushing yards, 481 total yards</p>
-        <p class="f6 mt2 mb0 dn db-ns"></p>
+      <div style="padding-left: 0.8rem;" class="dn db-ns">
+        <p style="font-weight: bold; margin-top: 0.25rem; margin-bottom: 0.25rem; text-transform: uppercase; color: silver;" class="agate">How they compare (per game)</p>
+        <p style="font-size: 1.25rem; font-weight: 100; margin-top: 0.25rem; margin-bottom: 0.25rem;" class="f4">14 pts, 56 rushing yards, 385 total yards</p>
+        <p style="font-size: 1.25rem; font-weight: 100; margin-top: 0.25rem; margin-bottom: 0.25rem;" class="f4">33 pts, 79 rushing yards, 481 total yards</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; margin-bottom: 0;" class="dn db-ns"></p>
       </div>
 
     </section>
