@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CFL-Ticats curation tool</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body class="bg-light" style="padding-top: 72px;">
+    {% include 'includes/_navbar.html' %}
+    {% block body %}{% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!--     {% if (page == 'add_entry') or (page == 'view_entry') %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> -->
+   
+<!--     <script>
+            CKEDITOR.replace( 'inputContent' );
+            CKEDITOR.config.contentsCss = '/static/css/contents.css';
+            CKEDITOR.config.disableNativeSpellChecker = false;
+    </script> -->
+<!--     {% endif %} -->
+
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.9.4/trumbowyg.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.9.4/plugins/cleanpaste/trumbowyg.cleanpaste.min.js"></script>
+    <script type="text/javascript">
+        $('#inputContent').trumbowyg({
+            removeformatPasted: true,
+            autogrow: true,
+        });
+    </script> -->
+
+</body>
+</html>

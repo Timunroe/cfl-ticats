@@ -1,0 +1,70 @@
+{% extends '_base.html' %}
+{% set active_page = 'item' %}
+{% block body %}
+<div class="container py-4 px-md-5">
+    <h3>Item details | <small><a href="{{data['link']}}" target="_blank">article on thespec.com</a></small></h3>
+    <form action="/view/{{data['asset_id']}}" method="post">
+
+        <div class="form-group">
+            <input type="hidden" name="asset_id" value="{{data['asset_id']}}">
+            <label for="label_user">Label override</label>
+            <input type="text" class="form-control" name="label_user" value="{{ data['label_user']|safe if data['label_user'] else data['label_api']|safe }}"> 
+            <p class="small mt-1">Original: {{ data['label_api']|safe }}</p>
+        </div>
+        <div class="form-group">
+            <label for="title_user">Title override</label>
+            <input type="text" class="form-control" name="title_user" value="{{ data['title_user']|safe if data['title_user'] else data['title_api']|safe}}">
+            <p class="small mt-1">Original: {{ data['title_api']|safe }}</p>
+            <div class="invalid-feedback" style="width: 100%;">
+                A title is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desc_user">Summary override</label>
+            <textarea class="form-control" name="desc_user" rows="3">{{ data['desc_user']|safe if data['desc_user'] else data['desc_api']|safe }}</textarea>
+            <p class="small mt-1">Original: {{ data['desc_api']|safe }}</p>
+        </div>
+
+        <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
+            <div class="mr-3">
+                <label class="small" style="" for="draft_user">STATUS</label>
+                <select class="" style="font-size: 12.8px;" name="draft_user">
+                {% if data['draft_user'] == 0 %}
+                <option value="2">DRAFT</option>
+                <option value selected="selected">PUBLISH</option>
+                {% else %}
+                <option value selected="selected">DRAFT</option>
+                <option value="0">PUBLISH</option>
+                {% endif %}
+                </select>
+            </div>
+            <div class="mr-3">
+                <label class="small" style="" for="rank">RANK</label>
+                <select class="" name="rank">
+                {% for rank in [0, 1, 2, 3, 4, 5, 6] %}
+                <option
+                {% if data['rank']==rank %} value selected="selected" {% else %} value="{{rank}}" {% endif %}
+                >{{ rank }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="">
+                <label class="small" style="" for="rank_time">LOCK</label>
+                <select class="" name="rank_time">
+                {% for hours in [0, 4, 8, 12, 24] %}
+                <option
+                {% if data['rank_time']==hours %} value selected="selected"
+                {% else %} value="{{ hours }}" {% endif %}
+                >{{ hours }}</option>
+                {% endfor %}
+                </select>
+                <span class="small">HOURS</span>
+            </div>
+        </div>
+
+        <button type="submit" name="action" class="btn btn-primary" value="save">Update</button>
+        <button type="submit" name="action" class="btn btn-warning" value="cancel">Cancel</button>
+        <button type="submit" name="action" class="btn btn-danger" value="delete">Delete</button>
+    </form>
+</div>
+{% endblock %}

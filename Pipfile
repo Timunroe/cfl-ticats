@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+htmlmin = "*"
+tinydb = "*"
+requests = "*"
+"boto3" = "*"
+smartypants = "*"
+arrow = "*"
+pylint = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

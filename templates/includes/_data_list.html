@@ -1,0 +1,65 @@
+{% set active_page = active_page -%}
+
+<div class="card">
+    <a href="/view/{{ item['asset_id'] }}" class="list-group-item-action">
+        <div class="card-body d-flex align-items-start">
+            {% if item['img_api_thumb'] %}
+            <div class="card-body-image mr-2 crop flex-shrink-0">
+                <img class="mr-3" src="{{ item['img_api_thumb'] }}" alt="Generic placeholder image">
+            </div>
+            {% endif %}
+            <div class="card-body-text flex-shrink-1">
+                <h5 class="card-title mb-0">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe|replace("WORLD CUP:", "") }}</h5>
+                {% if not item['img_api_thumb'] %}
+                    <p class="card-text small">{{ item['desc_user']|safe|truncate(150, False) if item['desc_user'] else item['desc_api']|safe|truncate(150, False)|replace("WORLD CUP:", "") }}</p>
+                {% endif %}
+                <p class="card-text small">
+                    <b>Label:</b> {{ item['label_user']|safe if item['label_user'] else item['label_api']|safe }} |
+                    <b>Source</b>: {% if item['source_api'] != '' %} {{ item['source_api'] }} {% elif item['site_api'] == '' %}  CP {% else %} {{ item['site_api'] }} {% endif %} |
+                    <b>Author</b>: {{ item['author_api']|safe }} |
+                    <b>Published</b>: {{ item['timestamp'] }}
+                    {% if item['draft_api'] %}<span class="badge badge-warning">auto-draft</span> {% endif %}</p>
+            </div>
+        </div>
+    </a>
+    <div class="card-footer pt-1 pb-2">
+        <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
+            <div class="mr-3">
+                <label class="small" style="" for="draft">STATUS</label>
+                <select class="" style="font-size: 12.8px;" name="draft">
+                {% if item['draft_user'] == 0 %}
+                <option value="{{ item['asset_id'] }}__draft_user__2">DRAFT</option>
+                <option value selected="selected">PUBLISH</option>
+                {% else %}
+                <option value selected="selected">DRAFT</option>
+                <option value="{{ item['asset_id'] }}__draft_user__0">PUBLISH</option>
+                {% endif %}
+                </select>
+            </div>
+            {% if active_page == 'lineup' -%}
+            <div class="mr-3">
+                <label class="small" style="" for="rank">RANK</label>
+                <select class="" name="rank">
+                {% for rank in [0, 1, 2, 3, 4, 5, 6] %}
+                <option
+                {% if item['rank']==rank %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__rank__{{rank}}" {% endif %}
+                >{{ rank }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="">
+                <label class="small" style="" for="rank_time">LOCK</label>
+                <select class="" name="rank_time">
+                {% for hours in [0, 4, 8, 12, 24] %}
+                <option
+                {% if item['rank_time']==hours %} value selected="selected"
+                {% else %} value="{{ item['asset_id'] }}__rank_time__{{ hours }}" {% endif %}
+                >{{ hours }}</option>
+                {% endfor %}
+                </select>
+                <span class="small">HOURS</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

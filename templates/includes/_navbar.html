@@ -1,0 +1,39 @@
+{% set navigation_bar = [
+    ('/', 'index', 'Spec CFL-Ticats'),
+    ('/lineup', 'lineup', 'Lineup'),
+    ('/item', 'item', 'Item'),
+    ('/drafts', 'drafts', 'Drafts'),
+    ('/about', 'about', 'About')
+] -%}
+{% set active_page = active_page|default('index') -%}
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    {% for href, id, text in navigation_bar[:1] %}
+    <a class="navbar-brand" href="{{ href|e }}">{{ tetxt|e }}</a>
+    {% endfor %}
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            {% if active_page == 'item' %}
+            {%- for href, id, text in navigation_bar[1:] -%}
+            <li class="nav-item {% if id == active_page %} active {% endif %}">
+                <a class="nav-link" href="{{ href|e }}">{{ text|e }}
+                {% if id == active_page %} <span class="sr-only">(current)</span> {% endif %}
+                 </a>
+            </li>
+            {% endfor %}
+            {% else %}
+            {%- for href, id, text in navigation_bar[1:] if id != 'item' -%}
+            <li class="nav-item {% if id == active_page %} active {% endif %}">
+                <a class="nav-link" href="{{ href|e }}">{{ text|e }}
+                {% if id == active_page %} <span class="sr-only">(current)</span> {% endif %}
+                 </a>
+            </li>
+            {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>
