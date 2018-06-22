@@ -1,57 +1,51 @@
 config = {
     # could reduce db name to just project_name.json
-    "project_name": "ticats",
-    "name": "spec",
-    "db_name": "ticats.json",
+    "project_name":
+    "ticats",
+    "name":
+    "spec",
+    "db_name":
+    "ticats.json",
     "db_fields_dflt": {
         'desc_user': '',
         'draft_user': 0,  # int 0:published, 1-2: draft
-        'rank': 0, # int
-        'rank_time': 0, # int
+        'rank': 0,  # int
+        'rank_time': 0,  # int
         'label_user': '',
         'title_user': '',
-        'tags_user': [], # list of strings
+        'tags_user': [],  # list of strings
     },
-    "db_fields": 
-    [
-        'asset_id',
-        'author_api',
-        'caption_api',
-        'categories_api',
-        'label_api',
-        'source_api',
-        'desc_api',
-        'draft_api',
-        'link',
-        'img_api',
-        'img_api_thumb',
-        'pubdate_api',
-        'region_api',
-        'site_api',
-        'tags_api',
-        'timestamp',
-        'title_api'
+    "db_fields": [
+        'asset_id', 'author_api', 'caption_api', 'categories_api', 'label_api',
+        'source_api', 'desc_api', 'draft_api', 'link', 'img_api',
+        'img_api_thumb', 'pubdate_api', 'region_api', 'site_api', 'tags_api',
+        'timestamp', 'title_api'
     ],
-    "apis":
-        [
-            {
-                "url": 'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
-                "filter": ["searchResultView"]
-            },
-            {
-                "url": 'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
-                "filter": ["searchResultView"]
-            },
-            {
-                "url": 'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
-                "filter": ["searchResultView"]
-            },
-            {
-                "url": 'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
-                "filter": ["searchResultView"]
-            },
+    "apis": [
+        {
+            "url":
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            "filter": ["searchResultView"]
+        },
+        {
+            "url":
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            "filter": ["searchResultView"]
+        },
+        {
+            "url":
+            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
+            "filter": ["searchResultView"]
+        },
+        {
+            "url":
+            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=15&startindex=1&endindex=5',
+            "filter": ["searchResultView"]
+        },
     ],
-    "munge": []
+    "munge": [],
+    "section_list": ["Ticats", "CFL"],
+    "tag_list": ["BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG", "Opinion", "Gameday", "Profile", "Feature", "League"]
 }
 
 # BY KEYWORD
