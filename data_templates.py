@@ -6,8 +6,7 @@ page_template = '''\
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>World Cup curator</title>
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css"/>
+    <title>CFL-Ticats curator</title>
     <style type="text/css">
         $css
     </style>

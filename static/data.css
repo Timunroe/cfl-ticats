@@ -165,18 +165,23 @@ ul.pica-tab-controls {
 
 .agate {
     font-size: 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir,
-      "helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial,
-      sans-serif;
+
   }
 
-  .tg {
+  .pica-sans-serif {
+    font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
+  }
+
+  .pica-table {
+    table-layout:fixed;
     border-collapse: collapse;
     border-spacing: 0;
     border-color: #ccc;
+    width: 100%;
+    text-align: left;
   }
   
-  .tg td {
+  .pica-table td {
     font-size: 14px;
     padding: 10px 5px;
     border-style: solid;
@@ -190,7 +195,7 @@ ul.pica-tab-controls {
     background-color: #fff;
   }
   
-  .tg th {
+  .pica-table th {
     font-size: 14px;
     padding: 10px 5px;
     border-style: solid;
@@ -204,6 +209,6 @@ ul.pica-tab-controls {
     background-color: #f0f0f0;
   }
   
-  .tg .tg-yw4l {
+  .pica-table .pica-table_cell {
     vertical-align: top;
   }
