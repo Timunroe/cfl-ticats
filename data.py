@@ -1,4 +1,5 @@
-from jinja2 import Environment
+from jinja2 import Environment, FileSystemLoader
+# from jinja2 import Environment
 from string import Template
 import htmlmin
 import io
@@ -26,10 +27,13 @@ def save_file_overwrite(s_contents, s_name):
 
 
 def build_template():
-    # NEED TO CREATE BUILD DIRECTOR IF IT DOESN'T EXIST!!!
+    # NEED TO CREATE BUILD DIRECTORY IF IT DOESN'T EXIST!!!
     print("Building template for DNN")
     template_data = {"posts": model.get_lineup()}
-    html = Environment().from_string(tmpl.core_template).render(data=template_data)
+    # using Jinja2 string was fun, but let's get back to includes and other good stuff
+    # html = Environment().from_string(tmpl.core_template).render(data=template_data)
+    j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
+    html = j2_env.get_template('ext_core.html').render(data=template_data)
     html_minified = minify_html(html)
     css = fetch.fetch_css()
     script = Template(tmpl.script_template).substitute(css=css, minified=html_minified)
