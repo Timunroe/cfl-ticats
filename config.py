@@ -45,7 +45,12 @@ config = {
     ],
     "munge": [],
     "section_list": ["Ticats", "CFL"],
-    "tag_list": ["BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG", "Opinion", "Gameday", "Profile", "Feature", "League"]
+    "tag_list": ["BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG", "Opinion", "Gameday", "Profile", "Feature", "League"],
+    "schedule": [
+        {"name": "Week 1", "games": ["June 14: EDM 33 @ WPG 30", "June 15: TOR 19 @ SSK 27", "June 16: HAM 14 @ CGY 28", "June 16: MTL 10 @ BC 22"], "end": ""},
+        {"name": "Week 2", "games": ["June 21: SSK 17 @ OTT 40", "June 22: WPG 56 @ MTL 10", "June 22: HAM 38 @ EDM 21", "June 23: CGY 41 @ TOR 7"], "end": ""},
+        {"name": "Week 3", "games": ["June 28: OTT @ CGY 9pm", "June 29: WPG @ HAM 7pm", "June 29: BC @ EDM 10pm", "June 30: MTL @ SSK 9pm"], "end": ""},
+    ]
 }
 
 # BY KEYWORD

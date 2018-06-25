@@ -13,9 +13,10 @@ app = Flask(__name__)
 def index():
     return redirect(url_for('lineup'))
 
-@app.route('/test')
+@app.route('/preview')
 def test():
-    return render_template('test.html')
+    template_data = {"posts": model.get_lineup()}
+    return render_template('preview.html', data=template_data)
 
 @app.route('/lineup', methods=['GET', 'POST'])
 def lineup():
