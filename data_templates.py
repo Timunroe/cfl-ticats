@@ -220,4 +220,38 @@ for (item in selectors_to_hide) {
   }
 }
 
+function pica_tabs_handler(e) {
+	// deal with tab-controls
+  var tab_id = this.getAttribute('data-tab');
+  // reset all tab controls of specific block to default class 
+  var tab_controls = this.parentNode.querySelectorAll('.pica-tab-control');
+  Array.prototype.forEach.call(tab_controls, function(el, i) {
+    el.className = 'pica-tab-control'; // set tab controls to base class
+  });
+  // set class of selected tab control in specific block to active
+  this.className = 'pica-tab-control active';
+  // deal with tab-panels
+  // select all panels in the data-block with this data-tab number
+  var panel_block = this.parentNode.parentNode.querySelector('.pica-tab-panels');
+  // hide them
+  Array.prototype.forEach.call(panel_block.querySelectorAll('.pica-tab-panel'), function(el, i) {
+    el.style.display = 'none'; 
+  });
+  // unhide the panel whose data-tab number is same as clicked control
+  var this_panel = panel_block.querySelector('[data-tab="' + tab_id + '"]');
+  // var this_panel = these_panels.querySelector('[data-tab-panel="' + tab_id + '"]');
+  this_panel.style.display = 'block';
+}
+
+// start by applying listeners to tab controls
+var tab_controls = document.querySelectorAll('.pica-tab-controls .pica-tab-control');
+Array.prototype.forEach.call(tab_controls, function(el, i) {
+  el.addEventListener('click', pica_tabs_handler, false);
+});
+// select default tab
+var defaults = document.querySelectorAll('.pica-tab-control[data-tab-default="yes"]')
+Array.prototype.forEach.call(defaults, function(el, i) {
+  el.click();
+});
+
 '''

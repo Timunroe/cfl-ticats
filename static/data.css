@@ -105,64 +105,6 @@ so 800/3 ~ 250px (round down because of margins)
     transition: opacity .15s ease-out
 }
 
-/* TABS CSS */
-ul.pica-tab-controls {
-    display: flex;
-    flex-wrap: nowrap;
-    cursor: pointer;
-    padding: 0;
-    list-style-type: none; 
-  }
-
-  .pica-tab-panel_items:after {
-    content: "";
-    flex: 1 1 250px;
-    margin: 0 10px 10px 10px;
-  }
-  
-  li.pica-tab-control {
-    flex: 1;
-    font-family: -apple-system, BlinkMacSystemFont, \\\'avenir next\\\', avenir, \\\'helvetica neue\\\', helvetica, ubuntu, roboto, noto, \\\'segoe ui\\\', arial, sans-serif;
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 0.5rem;
-    color: #000;
-    background-color: #CCC;
-    text-transform: uppercase;
-    border-color: rgba(0, 0, 0, .3);
-    border-style: solid;
-    border-width: 1px;
-    border-radius: .25rem;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    opacity: 1;
-    transition: opacity .15s ease-in;
-  }
-  
-  .pica-tab-control.active {
-    background-color: white;
-    color: #111;
-    border-bottom-width: 0;
-  }
-  
-  .pica-tab-control:hover,
-  .pica-tab-control:focus {
-    opacity: .5;
-    transition: opacity .15s ease-in;
-  }
-  .pica-tab-control:active {
-    opacity: .8; transition: opacity .15s ease-out;
-  }
-
-  .pica-tab-panel {
-    border-style: solid;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, .3);
-    border-top-style: none;
-    padding: 0.5rem;
-    padding-top: 1rem;
-}
-
 .agate {
     font-size: 10px;
 
@@ -212,3 +154,58 @@ ul.pica-tab-controls {
   .pica-table .pica-table_cell {
     vertical-align: top;
   }
+
+  /* TABS CSS */
+
+.pica-tab-controls {
+  display: flex;
+  flex-wrap: nowrap;
+  cursor: pointer;
+  padding: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
+.pica-tab-control {
+  flex: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  color: #000;
+  background-color: #FFB612;
+  text-transform: uppercase;
+  border-color: rgba(0, 0, 0, .3);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: .25rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  opacity: 1;
+  transition: opacity .15s ease-in;
+}
+
+.pica-tab-control.active {
+  background-color: white;
+  color: #111;
+  border-bottom-width: 0;
+}
+
+.pica-tab-control:hover,
+.pica-tab-control:focus {
+  opacity: .5;
+  transition: opacity .15s ease-in;
+}
+
+.pica-tab-control:active {
+  opacity: .8;
+  transition: opacity .15s ease-out;
+}
+
+.pica-tab-panel {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, .3);
+  border-top-style: none;
+  padding: 0.5rem;
+}
