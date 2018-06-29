@@ -14,7 +14,7 @@ def index():
     return redirect(url_for('lineup'))
 
 @app.route('/preview')
-def test():
+def preview():
     template_data = {"posts": model.get_lineup()}
     return render_template('preview.html', data=template_data)
 

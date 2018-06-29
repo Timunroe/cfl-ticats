@@ -11,7 +11,7 @@
         {% endif %}
         <div class="pica-card-text">
             <a class="pica-link" target="_blank" href="{{ item['link'] }}">
-                <h3 style="margin-top: 8px; margin-bottom: 6px;" class="">{{ item['title_api']|safe }}</h3>
+                <h3 style="margin-top: 8px; margin-bottom: 6px;" class="">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe }}</h3>
                 <p class=""><small style="color: grey;">{{ item['label_user']|safe if item['label_user'] else item['label_api']|safe }}</small></p>
             </a>
         </div>
