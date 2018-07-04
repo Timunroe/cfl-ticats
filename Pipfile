@@ -12,9 +12,11 @@ requests = "*"
 smartypants = "*"
 arrow = "*"
 pylint = "*"
+yapf = "*"
 
 [dev-packages]
 yapf = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.7"

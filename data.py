@@ -38,9 +38,6 @@ def build_template():
     script = Template(tmpl.script_template).substitute(css=css, minified=html_minified)
     script_name = f"{cfg.config['project_name']}_{cfg.config['name']}.js"
     save_file_overwrite(script, script_name)
-    page = Template(tmpl.page_template).substitute(css=css, core=html)
-    page_name = f"{cfg.config['project_name']}_{cfg.config['name']}_preview.html"
-    save_file_overwrite(page, page_name)
     pass
 
 
