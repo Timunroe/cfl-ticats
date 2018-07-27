@@ -106,6 +106,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 .DS_Store
-.DS_Store
 .vscode/settings.json
-.DS_Store
