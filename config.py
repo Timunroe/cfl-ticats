@@ -24,12 +24,12 @@ config = {
     "apis": [
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=10',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=10',
             "filter": ["searchResultView"]
         },
         {
