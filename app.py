@@ -7,16 +7,19 @@ import data
 
 app = Flask(__name__)
 
-#[ ROUTES ]----------
+# [ ROUTES ]----------
+
 
 @app.route('/')
 def index():
     return redirect(url_for('lineup'))
 
+
 @app.route('/preview')
 def preview():
-    template_data = {"posts": model.get_lineup()}
+    template_data = {"posts": model.get_lineup('published')}
     return render_template('preview.html', data=template_data)
+
 
 @app.route('/lineup', methods=['GET', 'POST'])
 def lineup():
@@ -30,7 +33,7 @@ def lineup():
             fetch.put_S3()
         if request.form['action'] == 'fetch':
             model.get_new_data()
-    template_data = {"items": model.get_lineup()}
+    template_data = {"items": model.get_lineup('published')}
     return render_template('lineup.html', data=template_data, draft_check=False)
 
 
@@ -38,7 +41,7 @@ def lineup():
 def drafts():
     if request.method == 'POST':
         model.parse_form(request.form)
-    template_data = {"items": model.get_drafts()}
+    template_data = {"items": model.get_lineup('drafts')}
     # print("template data is:")
     # print(template_data)
     return render_template('drafts.html', data=template_data)
@@ -62,6 +65,7 @@ def view_entry(record_id):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 # [MAIN]-----------------
 

@@ -177,7 +177,9 @@ def get_new_data():
         time.sleep(1)
 
 
-def get_lineup():
+def get_lineup(kind):
+    # kind = "published|drafts|deleted"
+    # +++++++++++++++++++++++++++++
     # how do we deal when draft/rank conflict?
     # At the moment, a ranked item set to draft
     # shows up in Lineup (by rank) without draft, AND on drafts page
@@ -189,27 +191,60 @@ def get_lineup():
     # get records that are 1. not in draft 2. not in rank list
     # lineup = {} this not needed as we are returning list, not dict of lists
     # get any records with rank not equal to 0
-    rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
+    # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
     # print(f"rank list is: {rank_list}")
-    # NOTE:
-    published = [x for x in is_draft(db.all(), False) if x['rank'] == 0]
-    # print(f"++++++++\nPublished list is:\n")
-    # for z in published:
-    # print(z['title_api'])
-    lineup = [x for x in published][:18]
-    # print(f"Lineup spec is: {lineup['spec']}")
-    # need to insert items from rank list
-    for item in rank_list:
-        # what happens if items have same rank?
-        # I think they get put in according to how list was sorted
-        # so latest item with same rank is ahead of older item with same rank?
-        idx = (item['rank'] - 1)
-        lineup[idx:idx] = [item]
+
+    if kind == 'published':
+        non_draft = [x for x in db.all()
+                     if x['draft_user'] == 0]
+
+        non_rank_list = [x for x in non_draft if x['rank'] == 0]
+        rank_list = sorted([x for x in non_draft if x['rank'] != 0], key=itemgetter('rank')) 
+        
+        non_draft_sorted = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
+        the_list = non_draft_sorted[:18]
+        # need to insert items from rank list
+        for item in rank_list:
+            # what happens if items have same rank?
+            # I think they get put in according to how list was sorted
+            # so latest item with same rank is ahead of older item with same rank?
+            idx = (item['rank'] - 1)
+            the_list[idx:idx] = [item]
+    if kind == "drafts":
+        draft = [x for x in db.all()
+                   if x['draft_user'] > 0]
+        draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
+        the_list = draft_sorted
+
     db.close()
     # print("Records going into lineup:")
     # print(records)
-    return lineup
+    return the_list
 
+
+def is_draft(val, condition=True):
+    # returns list if given list,
+    # returns true/false if given record
+    # 'condition' is boolean. True means we want items in 'draft
+    if condition is True:
+        records = [x for x in val if x['draft_user'] > 0]
+        # print("+++++++++++\nThese items ARE in draft:")
+        # for z in records:
+        # print(z['title_api'])
+    else:
+        records = [x for x in val if x['draft_user'] == 0]
+        # print("+++++++++++\nThese items are NOT in draft:")
+        # for z in records:
+        # print(z['title_'])
+    return sorted(records, key=itemgetter('pubdate_api'), reverse=True)
+
+
+def get_drafts():
+    db = TinyDB(cfg.config['db_name'])
+    # Record = Query()
+    records = is_draft(db.all(), True)
+    db.close()
+    return records
 
 def request_item(form_data, asset_id):
     fields = ["rank", "rank_time", "draft_user", "desc_user", "title_user"]
@@ -219,12 +254,6 @@ def request_item(form_data, asset_id):
         if form_data[field] != '':
             post[field] = form_data[field]
     return post
-
-
-# def request_lineup(form_data):
-#     fields = ["rank", "rank_time", "draft"]
-#     for field in fields:
-#         set_value(form_data[field], value)
 
 
 def parse_form(form_data, kind="list"):
@@ -291,29 +320,7 @@ def sort_by_latest(records):
     return sorted(records, key=itemgetter('pubdate_api'), reverse=True)
 
 
-def is_draft(val, condition=True):
-    # returns list if given list,
-    # returns true/false if given record
-    # 'condition' is boolean. True means we want items in 'draft
-    if condition is True:
-        records = [x for x in val if x['draft_user'] > 0]
-        # print("+++++++++++\nThese items ARE in draft:")
-        # for z in records:
-        # print(z['title_api'])
-    else:
-        records = [x for x in val if x['draft_user'] == 0]
-        # print("+++++++++++\nThese items are NOT in draft:")
-        # for z in records:
-        # print(z['title_'])
-    return sorted(records, key=itemgetter('pubdate_api'), reverse=True)
 
-
-def get_drafts():
-    db = TinyDB(cfg.config['db_name'])
-    # Record = Query()
-    records = is_draft(db.all(), True)
-    db.close()
-    return records
 
 
 def set_draft(ids, status=True):

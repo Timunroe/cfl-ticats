@@ -11,12 +11,11 @@ requests = "*"
 "boto3" = "*"
 smartypants = "*"
 arrow = "*"
-pylint = "*"
 yapf = "*"
+"flake8" = "*"
 
 [dev-packages]
 yapf = "*"
-pylint = "*"
 
 [requires]
 python_version = "3.7"
