@@ -9,6 +9,7 @@ import time
 
 # ALL ABOUT THE DATA: ThIS MODULE TRANSFORMS DATA, DEALS WITH DATABASE
 
+
 def parse_feed(items):
     # input a list of dicts (ie fetched data from an api, rss)
     posts = []
@@ -26,7 +27,7 @@ def parse_feed(items):
             post['caption_api'] = ""
         # NOTE THIS FAILS IF NO SUBCATEGORIES, LIKE A STAFF STORY WITH JUST 'SPORTS'
         # USE CATEGORIES IN FEED INSTEAD?
-        if 'categoriesSubCategories' in item:    
+        if 'categoriesSubCategories' in item:
             post['categories_api'] = list(set([item for sublist in item['categoriesSubCategories'] for item in sublist.split('||')]))
         else:
             post['categories_api'] = ""
@@ -85,7 +86,7 @@ def parse_feed(items):
 
 
 def filter_feed(items):
-    new_list =[]
+    new_list = []
     m = re.compile('Ticats', flags=re.I)
     for item in items:
         # is 'Ticats' in 'categories_api'?
@@ -195,13 +196,14 @@ def get_lineup(kind):
     # print(f"rank list is: {rank_list}")
 
     if kind == 'published':
+        # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
+
         non_draft = [x for x in db.all()
                      if x['draft_user'] == 0]
 
         non_rank_list = [x for x in non_draft if x['rank'] == 0]
-        rank_list = sorted([x for x in non_draft if x['rank'] != 0], key=itemgetter('rank')) 
-        
-        non_draft_sorted = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
+        rank_list = sorted([x for x in non_draft if x['rank'] != 0], key=itemgetter('rank'))
+        non_draft_sorted = sorted(non_rank_list, key=itemgetter('pubdate_api'), reverse=True)
         the_list = non_draft_sorted[:18]
         # need to insert items from rank list
         for item in rank_list:
@@ -212,7 +214,7 @@ def get_lineup(kind):
             the_list[idx:idx] = [item]
     if kind == "drafts":
         draft = [x for x in db.all()
-                   if x['draft_user'] > 0]
+                 if x['draft_user'] > 0]
         draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
         the_list = draft_sorted
 
@@ -245,6 +247,7 @@ def get_drafts():
     records = is_draft(db.all(), True)
     db.close()
     return records
+
 
 def request_item(form_data, asset_id):
     fields = ["rank", "rank_time", "draft_user", "desc_user", "title_user"]
@@ -318,9 +321,6 @@ def set_value(value_list, value):
 
 def sort_by_latest(records):
     return sorted(records, key=itemgetter('pubdate_api'), reverse=True)
-
-
-
 
 
 def set_draft(ids, status=True):

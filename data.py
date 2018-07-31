@@ -28,7 +28,7 @@ def save_file_overwrite(s_contents, s_name):
 def build_template():
     # NEED TO CREATE BUILD DIRECTORY IF IT DOESN'T EXIST!!!
     print("Building template for DNN")
-    template_data = {"posts": model.get_lineup()}
+    template_data = {"posts": model.get_lineup('published')}
     # using Jinja2 string was fun, but let's get back to includes and other good stuff
     # html = Environment().from_string(tmpl.core_template).render(data=template_data)
     j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
