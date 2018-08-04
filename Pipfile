@@ -13,6 +13,7 @@ smartypants = "*"
 arrow = "*"
 pylint = "*"
 yapf = "*"
+ujson = "*"
 
 [dev-packages]
 yapf = "*"
