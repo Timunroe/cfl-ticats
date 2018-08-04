@@ -11,13 +11,15 @@ requests = "*"
 "boto3" = "*"
 smartypants = "*"
 arrow = "*"
-pylint = "*"
 yapf = "*"
+<<<<<<< HEAD
 ujson = "*"
+=======
+"flake8" = "*"
+>>>>>>> 8375aa12f9133b3d6d82ae2c253112a3bbdea4bf
 
 [dev-packages]
 yapf = "*"
-pylint = "*"
 
 [requires]
 python_version = "3.7"

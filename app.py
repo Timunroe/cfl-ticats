@@ -1,22 +1,24 @@
 from flask import Flask, render_template, request, url_for, redirect
 import model
-import arrow
 import config as cfg
 import fetch
 import data
 
 app = Flask(__name__)
 
-#[ ROUTES ]----------
+# [ ROUTES ]----------
+
 
 @app.route('/')
 def index():
     return redirect(url_for('lineup'))
 
+
 @app.route('/preview')
 def preview():
-    template_data = {"posts": model.get_lineup()}
+    template_data = {"posts": model.get_lineup('published')}
     return render_template('preview.html', data=template_data)
+
 
 @app.route('/lineup', methods=['GET', 'POST'])
 def lineup():
@@ -27,10 +29,14 @@ def lineup():
         if request.form['action'] == 'deploy':
             model.parse_form(request.form)
             data.build_template()
-            fetch.put_S3()
+            fetch.put_S3()  # somtimes tries to send before file above finished writing!!!!
+            # StackOverflow: https://stackoverflow.com/questions/36274868/saving-an-image-to-bytes-and-uploading-to-boto3-returning-content-md5-mismatch
+            # My answer was to create using ".filename" then:
+            #   os.rename(filename.replace(".filename","filename"))
+            # This ensured the file was done being created.
         if request.form['action'] == 'fetch':
             model.get_new_data()
-    template_data = {"items": model.get_lineup()}
+    template_data = {"items": model.get_lineup('published')}
     return render_template('lineup.html', data=template_data, draft_check=False)
 
 
@@ -38,7 +44,7 @@ def lineup():
 def drafts():
     if request.method == 'POST':
         model.parse_form(request.form)
-    template_data = {"items": model.get_drafts()}
+    template_data = {"items": model.get_lineup('drafts')}
     # print("template data is:")
     # print(template_data)
     return render_template('drafts.html', data=template_data)
@@ -62,6 +68,7 @@ def view_entry(record_id):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 # [MAIN]-----------------
 

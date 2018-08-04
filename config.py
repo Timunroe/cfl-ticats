@@ -24,33 +24,36 @@ config = {
     "apis": [
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=10&startindex=1&endindex=10',
+            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=15',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=5&startindex=1&endindex=5',
+            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=5&startindex=1&endindex=5',
+            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
             "filter": ["searchResultView"]
         },
     ],
     "munge": [],
-    "section_list": ["Ticats", "CFL"],
-    "tag_list": ["BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG", "Opinion", "Gameday", "Profile", "Feature", "League"],
+    # category -> section -> topic -> tags
+    "categories": ["football"],
+    "sections": ["CFL", "NFL", "US College", "Canadian University"],
+    "topics": ["HAM", "BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG"],
+    "tags": ["Opinion", "Gameday", "Profile", "Feature", "League"],
     "schedule": [
         {"name": "Week 1", "games": ["June 14: EDM 33 @ WPG 30", "June 15: TOR 19 @ SSK 27", "June 16: HAM 14 @ CGY 28", "June 16: MTL 10 @ BC 22"], "end": ""},
         {"name": "Week 2", "games": ["June 21: SSK 17 @ OTT 40", "June 22: WPG 56 @ MTL 10", "June 22: HAM 38 @ EDM 21", "June 23: CGY 41 @ TOR 7"], "end": ""},
         {"name": "Week 3", "games": ["June 28: OTT @ CGY 9pm", "June 29: WPG @ HAM 7pm", "June 29: BC @ EDM 10pm", "June 30: MTL @ SSK 9pm"], "end": ""},
-    ]
+    ],
 }
 
 # BY KEYWORD
