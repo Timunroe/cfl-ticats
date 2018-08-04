@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
 import model
-import arrow
 import config as cfg
 import fetch
 import data

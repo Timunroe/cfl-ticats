@@ -2,9 +2,9 @@ import config as cfg
 from tinydb import TinyDB, Query
 import smartypants
 from operator import itemgetter
-import arrow
 import fetch
 import re
+import datetime
 import time
 
 # ALL ABOUT THE DATA: ThIS MODULE TRANSFORMS DATA, DEALS WITH DATABASE
@@ -47,7 +47,10 @@ def parse_feed(items):
         else:
             post['img_api_thumb'] = ""
         post['pubdate_api'] = item['publishFromDate']
-        post['timestamp'] = (arrow.get(item['publishFromDate'])).format('MM-DD h:mm a')
+        date_object = datetime.datetime.strptime(post['pubdate_api'], '%Y-%m-%dT%H:%M:%S')
+        post['timestamp'] = date_object.strftime('%b %d %I:%M %p')
+        post['timestamp'] = post['timestamp'].replace(' 0', ' ').replace('Jul', 'July').replace('Apr', 'April').replace('Mar', 'March').replace('Jun', "June").replace(':00', '')
+        post['timestamp_epoch'] = int((date_object - datetime.datetime(1970, 1, 1)).total_seconds())
         post['site_api'] = item['newspaperName']
         post['author_api'] = item['authorName']
         if item['rootCategory'] == "opinion":
@@ -176,6 +179,23 @@ def get_new_data():
         posts = filter_feed(raw_posts)
         db_insert(posts)
         time.sleep(1)
+    expire()
+
+
+def expire():
+    # move old items from db to archives.json
+    # get all items in db, check each timestamp, if old then
+    db = TinyDB(cfg.config['db_name'])
+    db_old = TinyDB('archives.json')
+    Record = Query()
+    age_limit = 30 * 24 * 60 * 60  # 30 days
+    cutoff = ((datetime.datetime.now() - datetime.datetime(1970, 1, 1)).total_seconds()) - age_limit
+    expired_list = db.search(Record.timestamp_epoch < cutoff)
+    if expired_list:
+        for record in expired_list:
+            db_old.insert(record)
+            time.sleep(0.5)
+            db.remove(Record.asset_id == record['asset_id'])
 
 
 def get_lineup(kind):
@@ -197,14 +217,11 @@ def get_lineup(kind):
 
     if kind == 'published':
         # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-
         non_draft = [x for x in db.all()
                      if x['draft_user'] == 0]
-
-        non_rank_list = [x for x in non_draft if x['rank'] == 0]
+        non_rank_list = sorted([x for x in non_draft if x['rank'] == 0], key=itemgetter('pubdate_api'), reverse=True)
         rank_list = sorted([x for x in non_draft if x['rank'] != 0], key=itemgetter('rank'))
-        non_draft_sorted = sorted(non_rank_list, key=itemgetter('pubdate_api'), reverse=True)
-        the_list = non_draft_sorted[:18]
+        the_list = non_rank_list[:18]
         # need to insert items from rank list
         for item in rank_list:
             # what happens if items have same rank?
@@ -213,40 +230,12 @@ def get_lineup(kind):
             idx = (item['rank'] - 1)
             the_list[idx:idx] = [item]
     if kind == "drafts":
-        draft = [x for x in db.all()
-                 if x['draft_user'] > 0]
-        draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
-        the_list = draft_sorted
-
+        # draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
+        the_list = sorted(db.search(Record.draft_user != 0), key=itemgetter('pubdate_api'), reverse=True)
     db.close()
     # print("Records going into lineup:")
     # print(records)
     return the_list
-
-
-def is_draft(val, condition=True):
-    # returns list if given list,
-    # returns true/false if given record
-    # 'condition' is boolean. True means we want items in 'draft
-    if condition is True:
-        records = [x for x in val if x['draft_user'] > 0]
-        # print("+++++++++++\nThese items ARE in draft:")
-        # for z in records:
-        # print(z['title_api'])
-    else:
-        records = [x for x in val if x['draft_user'] == 0]
-        # print("+++++++++++\nThese items are NOT in draft:")
-        # for z in records:
-        # print(z['title_'])
-    return sorted(records, key=itemgetter('pubdate_api'), reverse=True)
-
-
-def get_drafts():
-    db = TinyDB(cfg.config['db_name'])
-    # Record = Query()
-    records = is_draft(db.all(), True)
-    db.close()
-    return records
 
 
 def request_item(form_data, asset_id):
