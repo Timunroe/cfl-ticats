@@ -12,11 +12,8 @@ requests = "*"
 smartypants = "*"
 arrow = "*"
 yapf = "*"
-<<<<<<< HEAD
-ujson = "*"
-=======
 "flake8" = "*"
->>>>>>> 8375aa12f9133b3d6d82ae2c253112a3bbdea4bf
+"autopep8" = "*"
 
 [dev-packages]
 yapf = "*"
