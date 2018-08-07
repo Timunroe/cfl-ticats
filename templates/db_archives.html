@@ -1,7 +1,7 @@
-{% extends '_base.html' %} {% set active_page = 'drafts' %} {% block body %}
+{% extends '_base.html' %} {% set active_page = 'archives' %} {% block body %}
 <main role="main" class="container">
-    <p>NOTE: These items are in draft ie they don't show on the Ticats-CFL page. A user has set them to draft, or they met certain preset conditions (draft-auto). Uncheck the checkboxes and click 'Update Database'' to remove from draft.</p>
-    <form action="/drafts" method="post">
+    <p>NOTE: These items are archived. A user has set them to archive, or they are more than 30 days old.</p>
+    <form action="/db_archives" method="post">
         <p>
             <button type="submit" class="btn btn-primary">Update Database</button>
         </p>

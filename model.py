@@ -27,10 +27,12 @@ def parse_feed(items):
             post['caption_api'] = ""
         # NOTE THIS FAILS IF NO SUBCATEGORIES, LIKE A STAFF STORY WITH JUST 'SPORTS'
         # USE CATEGORIES IN FEED INSTEAD?
-        if 'categoriesSubCategories' in item:
-            post['categories_api'] = list(set([item for sublist in item['categoriesSubCategories'] for item in sublist.split('||')]))
+        post['categories_api'] = item['categories']  # always a list from source
+        if 'categoriesSubCategories' in item:  # always a list OR does not exist
+            regex = re.compile(r"^.*\|\|", re.IGNORECASE)
+            post['categoriesSub_api'] = list(set([regex.sub('', x) for x in item['categoriesSubCategories']]))
         else:
-            post['categories_api'] = ""
+            post['categoriesSub_api'] = ""
         post['desc_api'] = smartypants.smartypants(item['description'].strip())
         post['desc_api'] = " ".join(post['desc_api'].split())
         if item['contentType'] == 'ArticleBlogpost':
@@ -137,7 +139,7 @@ def db_insert(c_posts, check=True):
     # by upserting from whatever's in DNN feed
     # if check is True, we have to check if record exists in database
     # if check is False, we don't have to, use update method
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     if not isinstance(c_posts, list):
         c_posts = [c_posts]
@@ -185,7 +187,9 @@ def get_new_data():
 def expire():
     # move old items from db to archives.json
     # get all items in db, check each timestamp, if old then
-    db = TinyDB(cfg.config['db_name'])
+    # move to archives, delete from db
+    # TODO: delete really old items from archives - 90 days?
+    db = TinyDB('db.json')
     db_old = TinyDB('archives.json')
     Record = Query()
     age_limit = 30 * 24 * 60 * 60  # 30 days
@@ -198,6 +202,35 @@ def expire():
             db.remove(Record.asset_id == record['asset_id'])
 
 
+def get_posts(kind):
+    # kind = "published|drafts|archived|cfl|nfl|fbs|usports|mlb|mls|nhl|nba"
+    # +++++++++++++++++++++++++++++
+    print("++++++++++++++\nIn get_lineup module ...")
+    if kind == 'archives':
+        db = TinyDB('archives.json')
+        the_list = sorted(db.all(), key=itemgetter('pubdate_api'), reverse=True)
+    else:
+        db = TinyDB('db.json')
+        Record = Query()
+        # get records that are 1. not in draft 2. not in rank list
+        # lineup = {} this not needed as we are returning list, not dict of lists
+        # get any records with rank not equal to 0
+        # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
+        # print(f"rank list is: {rank_list}")
+        if kind == 'published':
+            # get records that are not in draft
+            # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
+            non_draft = db.search(Record.draft_user == 0)
+            # non_draft = [x for x in db.all() if x['draft_user'] == 0]
+            the_list = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
+        if kind == "drafts":
+            the_list = sorted(db.search(Record.draft_user != 0), key=itemgetter('pubdate_api'), reverse=True)
+        # print("Records going into lineup:")
+        # print(records)
+    db.close()
+    return the_list
+
+
 def get_lineup(kind):
     # kind = "published|drafts|deleted"
     # +++++++++++++++++++++++++++++
@@ -207,7 +240,7 @@ def get_lineup(kind):
     # this each pages chooses items slightly differently
     # Assumption rank overrides draft?
     print("++++++++++++++\nIn get_lineup module ...")
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     # get records that are 1. not in draft 2. not in rank list
     # lineup = {} this not needed as we are returning list, not dict of lists
@@ -249,7 +282,7 @@ def request_item(form_data, asset_id):
 
 
 def parse_form(form_data, kind="list"):
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     print("incoming form data:")
     # print(form_data)
@@ -297,7 +330,7 @@ def parse_form(form_data, kind="list"):
 def set_value(value_list, value):
     # we will be getting a list of rank values: record-id_new-rank
     # ['8605132_1', '8605133_0', '8605134_0',]
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     for item in value_list:
         if item:
@@ -316,7 +349,7 @@ def set_draft(ids, status=True):
     # Status: 0 -> publish, 1 -> draft_api, 2 -> draft
     # if status True, set to draft, else set to publish
     # given a list of asset_ids, set them to draft or publish depending on status
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     draft = 2 if status else 0
     for item_id in ids:
@@ -328,7 +361,7 @@ def set_draft(ids, status=True):
 
 
 def get_record(s_id):
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     record = db.search(Record.asset_id == s_id)
     db.close()

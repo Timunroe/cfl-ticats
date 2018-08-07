@@ -1,40 +1,73 @@
-{% set navigation_bar = [
-    ('/', 'index', 'Spec CFL-Ticats'),
-    ('/lineup', 'lineup', 'Lineup'),
+{% set nav_bar = [
+    ('/', 'index', 'Sports Pages'),
+    ('/feed', 'feed', 'Feed'),
+    ('/db_drafts', 'drafts', 'Drafts'),
+    ('/db_archives', 'archives', 'Archives'),
     ('/preview', 'preview', 'Preview'),
     ('/item', 'item', 'Item'),
-    ('/drafts', 'drafts', 'Drafts'),
+    ('/lineup', 'lineup', 'Lineup'),
+
     ('/about', 'about', 'About')
 ] -%}
+
+{% set pages_dropdown = [
+    ('Football', [('cfl', 'CFL-Ticats'), ('nfl', 'NFL-Bills'), ('fbs', 'US College'), ('usports', 'USPORTS')]),
+    ('', [('mlb', 'MLB-Jays')]),
+    ('', [('mls', 'MLS-TFC')]),
+    ('', [('golf', 'Golf')]),
+    ('', [('tennis', 'Tennis')]),
+    ('', [('nba', 'NBA-Raptors')]),
+    ('Hockey', [('nhl', 'NHL-Leafs'), ('ohl', 'OHL-Bulldogs'), ('ahl', 'AHL-Marlies')]),
+] -%}
+
 {% set active_page = active_page|default('index') -%}
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    {% for href, id, text in navigation_bar[:1] %}
-    <a class="navbar-brand" href="{{ href|e }}">{{ text|e }}</a>
-    {% endfor %}
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            {% if active_page == 'item' %}
-            {%- for href, id, text in navigation_bar[1:] -%}
-            <li class="nav-item {% if id == active_page %} active {% endif %}">
-                <a class="nav-link" href="{{ href|e }}">{{ text|e }}
-                {% if id == active_page %} <span class="sr-only">(current)</span> {% endif %}
-                 </a>
-            </li>
-            {% endfor %}
-            {% else %}
-            {%- for href, id, text in navigation_bar[1:] if id != 'item' -%}
-            <li class="nav-item {% if id == active_page %} active {% endif %}">
-                <a class="nav-link" href="{{ href|e }}">{{ text|e }}
-                {% if id == active_page %} <span class="sr-only">(current)</span> {% endif %}
-                 </a>
-            </li>
-            {% endfor %}
-            {% endif %}
-        </ul>
+    <div class="container">
+        {% for href, id, text in nav_bar[:1] %}
+        <a class="navbar-brand" href="{{ href|e }}">{{ text|e }}</a>
+        {% endfor %}
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Pages
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for header, page_list in pages_dropdown %}
+                        {% if header %} <span class="dropdown-header">{{header}}</span> {% endif %}
+                        {% for href, text in page_list %}
+                        <a class="dropdown-item" href="/pages/{{href}}">{{text}}</a>
+                        {% endfor %}
+                        <div class="dropdown-divider"></div>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% if active_page not in ["feed", "drafts", "archives"] %}
+                <li class="nav-item">
+                        <a class="nav-link" href="/pages/{{active_page}}">Lineup</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/preview/{{active_page}}">Preview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/{{active_page}}">About</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/feed">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/db_drafts">Drafts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/db_archives">Archives</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

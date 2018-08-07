@@ -5,7 +5,7 @@ import datetime
 
 
 def set_expire():
-    db = TinyDB(cfg.config['db_name'])
+    db = TinyDB('db.json')
     Record = Query()
     for record in db.all():
         if 'timestamp_epoch' not in record:

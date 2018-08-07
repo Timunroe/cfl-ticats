@@ -1,22 +1,21 @@
 config = {
-    # could reduce db name to just project_name.json
-    "project_name":
-    "ticats",
-    "name":
-    "spec",
-    "db_name":
-    "ticats.json",
+    "project_name": "ticats",
+    "name": "spec",
+    "db_name": "db.json",
     "db_fields_dflt": {
         'desc_user': '',
+        #  TODO: Use ints or strings? Forms always return strings!!! Easier to use strings and convert if needed?
         'draft_user': 0,  # int 0:published, 1-2: draft
         'rank': 0,  # int
         'rank_time': 0,  # int
         'label_user': '',
         'title_user': '',
+        'categories_user': '',  # will always be a list from source
+        'categoriesSub_user': '',  # either a list or does not exist from source
         'tags_user': [],  # list of strings
     },
     "db_fields": [
-        'asset_id', 'author_api', 'caption_api', 'categories_api', 'label_api',
+        'asset_id', 'author_api', 'caption_api', 'sections_api', 'categories_api', 'label_api',
         'source_api', 'desc_api', 'draft_api', 'link', 'img_api',
         'img_api_thumb', 'pubdate_api', 'region_api', 'site_api', 'tags_api',
         'timestamp', 'title_api'
@@ -50,9 +49,36 @@ config = {
     "topics": ["HAM", "BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG"],
     "tags": ["Opinion", "Gameday", "Profile", "Feature", "League"],
     "schedule": [
-        {"name": "Week 1", "games": ["June 14: EDM 33 @ WPG 30", "June 15: TOR 19 @ SSK 27", "June 16: HAM 14 @ CGY 28", "June 16: MTL 10 @ BC 22"], "end": ""},
-        {"name": "Week 2", "games": ["June 21: SSK 17 @ OTT 40", "June 22: WPG 56 @ MTL 10", "June 22: HAM 38 @ EDM 21", "June 23: CGY 41 @ TOR 7"], "end": ""},
-        {"name": "Week 3", "games": ["June 28: OTT @ CGY 9pm", "June 29: WPG @ HAM 7pm", "June 29: BC @ EDM 10pm", "June 30: MTL @ SSK 9pm"], "end": ""},
+        {
+            "name":
+            "Week 1",
+            "games": [
+                "June 14: EDM 33 @ WPG 30", "June 15: TOR 19 @ SSK 27",
+                "June 16: HAM 14 @ CGY 28", "June 16: MTL 10 @ BC 22"
+            ],
+            "end":
+            ""
+        },
+        {
+            "name":
+            "Week 2",
+            "games": [
+                "June 21: SSK 17 @ OTT 40", "June 22: WPG 56 @ MTL 10",
+                "June 22: HAM 38 @ EDM 21", "June 23: CGY 41 @ TOR 7"
+            ],
+            "end":
+            ""
+        },
+        {
+            "name":
+            "Week 3",
+            "games": [
+                "June 28: OTT @ CGY 9pm", "June 29: WPG @ HAM 7pm",
+                "June 29: BC @ EDM 10pm", "June 30: MTL @ SSK 9pm"
+            ],
+            "end":
+            ""
+        },
     ],
 }
 
