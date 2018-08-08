@@ -38,16 +38,16 @@
                         Pages
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for header, page_list in pages_dropdown %}
+                        {%- for header, page_list in pages_dropdown -%}
                         {% if header %} <span class="dropdown-header">{{header}}</span> {% endif %}
-                        {% for href, text in page_list %}
+                        {%- for href, text in page_list -%}
                         <a class="dropdown-item" href="/pages/{{href}}">{{text}}</a>
-                        {% endfor %}
+                        {%- endfor -%}
                         <div class="dropdown-divider"></div>
-                        {% endfor %}
+                        {%- endfor -%}
                     </div>
                 </li>
-                {% if active_page not in ["feed", "drafts", "archives"] %}
+                {%- if active_page not in ["feed", "drafts", "archives"] -%}
                 <li class="nav-item">
                         <a class="nav-link" href="/pages/{{active_page}}">Lineup</a>
                     </li>
@@ -57,14 +57,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about/{{active_page}}">About</a>
                 </li>
-                {% endif %}
-                <li class="nav-item">
+                {%- endif -%}
+                <li class="nav-item {% if active_page =='feed' %} active {% endif %}">
                     <a class="nav-link" href="/feed">Posts</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {% if active_page =='drafts' %} active {% endif %}">
                     <a class="nav-link" href="/db_drafts">Drafts</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {% if active_page =='archives' %} active {% endif %}">
                     <a class="nav-link" href="/db_archives">Archives</a>
                 </li>
             </ul>

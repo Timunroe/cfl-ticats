@@ -1,18 +1,25 @@
 {% set active_page = active_page -%}
+{% set form_info = [
+    ('sections',["News", "Sports", "Opinion", "Living", "WhatsOn"]), 
+    ('categories', ["Baseball", "Basketball", "Football", "Golf", "Hockey", "Soccer", "Tennis"]),
+    ('topics', ["CFL", "NFL", "NBA", "MLB", "MLS", "NHL", "AHL", "OHL"]),
+    ('tags', ["Jays", "Bulldogs", "Raptors", "TFC", "Leafs", "Marlies", "Ticats", "Bills"])
+    ] 
+%}
 
 <div class="card">
     <a href="/view/{{ item['asset_id'] }}" class="list-group-item-action">
         <div class="card-body d-flex align-items-start">
-            {% if item['img_api_thumb'] %}
+            {%- if item['img_api_thumb'] -%}
             <div class="card-body-image mr-2 crop flex-shrink-0">
                 <img class="mr-3" src="{{ item['img_api_thumb'] }}" alt="Generic placeholder image">
             </div>
-            {% endif %}
+            {%- endif -%}
             <div class="card-body-text flex-shrink-1">
                 <h5 class="card-title mb-0">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe|replace("WORLD CUP:", "") }}</h5>
                 {% if not item['img_api_thumb'] %}
                     <p class="card-text small">{{ item['desc_user']|safe|truncate(150, False) if item['desc_user'] else item['desc_api']|safe|truncate(150, False)|replace("WORLD CUP:", "") }}</p>
-                {% endif %}
+                {%- endif -%}
                 <p class="card-text small">
                     <b>Label:</b> {{ item['label_user']|safe if item['label_user'] else item['label_api']|safe }} |
                     <b>Source</b>: {% if item['source_api'] != '' %} {{ item['source_api'] }} {% elif item['site_api'] == '' %}  CP {% else %} {{ item['site_api'] }} {% endif %} |
@@ -24,72 +31,37 @@
     </a>
     <div class="card-footer pt-1 pb-2">
         <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
-            <div class="mr-3">
-                <label class="small" style="" for="draft">STATUS</label>
-                <select class="" style="font-size: 12.8px;" name="draft">
-                {% if item['draft_user'] == 0 %}
+            <div class="small mr-3 mb-3">
+                <label class="small" style="display: block;" for="draft">STATUS</label>
+                <select class="test" style="" name="draft">
+                {%- if item['draft_user'] == 0 -%}
                 <option value="{{ item['asset_id'] }}__draft_user__2">DRAFT</option>
                 <option value selected="selected">PUBLISH</option>
-                {% else %}
+                {%- else -%}
                 <option value selected="selected">DRAFT</option>
                 <option value="{{ item['asset_id'] }}__draft_user__0">PUBLISH</option>
-                {% endif %}
+                {%- endif -%}
                 </select>
             </div>
-            <div class="mr-3">
-                <label class="small" style="" for="sections">SEC</label>
-                <select multiple class="" name="sections">
-                {% for section in ["News", "Sports", "Opinion", "Living", "WhatsOn"] %}
+            {%- for id, id_list in form_info -%}
+            <div class="small mr-3 mb-3">
+                <label class="small mr-2" style="display: block;" for="{{id}}">{{id|upper}}</label>
+                <select multiple="multiple" class="test" name="{{id}}" size="2">
+                {%- for x in id_list|sort -%}
                 <option
-                {% if item['sections_user'] %}
-                {% if section in item['sections_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__sections__{{section}}" {% endif %}
-                {% else %}
-                {% if section in item['sections_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__sections__{{section}}" {% endif %}
-                {% endif %}           
-                >{{ section }}</option>
-                {% endfor %}
+                {%- set field_user = id +'_user' -%}
+                {%- if item[field_user] -%}
+                {%- if x in item[field_user] -%} value selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}__{{x}}" {%- endif -%}
+                {%- else %}
+                {%- set field_api = id +'_api' %}
+                {%- if x in item[field_api] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}__{{x}}" {%- endif -%}
+                {%- endif -%}           
+                >{{ x }}</option>
+                {%- endfor -%}
                 </select>
             </div>
-            <div class="mr-3">
-                <label class="small" style="" for="categories">CAT</label>
-                <select multiple class="" name="categories">
-                {% for category in ["Baseball", "Basketball", "Football", "Golf", "Hockey", "Soccer", "Tennis"] %}
-                <option
-                {% if item['categories_user'] %}
-                {% if category in item['categories_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__categories__{{category}}" {% endif %}
-                {% else %}
-                {% if category in item['categories_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__categories__{{category}}" {% endif %}
-                {% endif %}  
-                >{{ category }}</option>
-                {% endfor %}
-                </select>
-            </div>
-            <div class="mr-3">
-                <label class="small" style="" for="topics">TOPIC</label>
-                <select multiple class="" name="topics">
-                {% for category in ["CFL", "NFL", "NBA", "MLB", "MLS", "NHL", "AHL", "OHL"] %}
-                <option
-                {% if item['topics_user'] %}
-                {% if category in item['topics_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__topics__{{topic}}" {% endif %}
-                {% else %}
-                {% if category in item['topics_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__topics__{{topic}}" {% endif %}
-                {% endif %}  
-                >{{ category }}</option>
-                {% endfor %}
-                </select>
-            </div>
-            <div class="mr-3">
-                <label class="small" style="" for="tags">TAGS</label>
-                <select multiple class="" name="tags">
-                {% for tag in ["CFL", "NFL"] %}
-                <option
-                {% if tag in item['tags_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__tags__{{tag}}" {% endif %}
-                >{{ category }}</option>
-                {% endfor %}
-                </select>
-            </div>
-
-            {% if active_page == 'lineup' -%}
+            {%- endfor -%}
+            {%- if active_page == 'lineup' -%}
             <div class="mr-3">
                 <label class="small" style="" for="rank">RANK</label>
                 <select class="" name="rank">
@@ -103,16 +75,16 @@
             <div class="">
                 <label class="small" style="" for="rank_time">LOCK</label>
                 <select class="" name="rank_time">
-                {% for hours in [0, 4, 8, 12, 24] %}
+                {%- for hours in [0, 4, 8, 12, 24] -%}
                 <option
-                {% if item['rank_time']==hours %} value selected="selected"
-                {% else %} value="{{ item['asset_id'] }}__rank_time__{{ hours }}" {% endif %}
+                {%- if item['rank_time']==hours %} value selected="selected"
+                {%- else -%} value="{{ item['asset_id'] }}__rank_time__{{ hours }}" {%- endif -%}
                 >{{ hours }}</option>
-                {% endfor %}
+                {%- endfor -%}
                 </select>
                 <span class="small">HOURS</span>
             </div>
-            {% endif %}
+            {%- endif -%}
         </div>
     </div>
 </div>

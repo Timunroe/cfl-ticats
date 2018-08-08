@@ -12,6 +12,8 @@ import time
 
 def parse_feed(items):
     # input a list of dicts (ie fetched data from an api, rss)
+    # TODO: SIMPLIFY, loop through list of field names, save tweaking for MUNGE
+    # see World Cup project on laptop?
     posts = []
     for item in items:
         post = {}
@@ -25,14 +27,15 @@ def parse_feed(items):
         else:
             post['caption_api'] = ""
         # start of taxonomy: sections [DNN categories] > categories [DNN subcategories] > topics (leagues) > tags
+        post['tags_api'] = []
+        post['topics_api'] = []
         post['sections_api'] = item['categories']  # always a list from source
         if 'categoriesSubCategories' in item:  # always a list OR does not exist
             regex = re.compile(r"^.*\|\|", re.IGNORECASE)
             post['categories_api'] = list(set([regex.sub('', x) for x in item['categoriesSubCategories']]))
         else:
             post['categories_api'] = ""
-        post['tags_api'] = []
-        post['topics_api'] = []
+
         # end of taxonomy
         post['desc_api'] = smartypants.smartypants(item['description'].strip())
         post['desc_api'] = " ".join(post['desc_api'].split())
@@ -285,16 +288,26 @@ def request_item(form_data, asset_id):
 
 
 def parse_form(form_data, kind="list"):
+    #  TODO: NEEDS TO BE REWRITTEN!!!
+    # EXAMPLE OF INCOMING FORM DATA, where I set a published item to draft, then added 2 topics
+    # {'action': ['save'], 'draft': ['8805675__draft_user__2', '', ''], 'sections': ['', '', '', ''], 'topics': ['8805675__topics__AHL', '8805675__topics__NBA'], 'categories': ['', '']}
+    # added 1 category, topic, tag
+    # {'action': ['save'], 'draft': ['', '', ''], 'sections': ['', '', '', ''], 'categories': ['8805675__categories__Football', '', ''], 'topics': ['8805675__topics__CFL'], 'tags': ['8805675__tags__Ticats']}
+    # WHY ARE SOME EMPTY FIELDS (tags for example) not even showing up?
+    # If changed, they do, but it's concerning!
+    # use request.args instead?
     db = TinyDB('db.json')
     Record = Query()
     print("incoming form data:")
-    # print(form_data)
+    print(form_data)
     # print("converted to a dict")
     print(dict(form_data))
     # form data will have keys, values that may be lists or a single string.
     form_data_dict = dict(form_data)
+    #  TODO: Don't need param 'kind', won't everthing be a list?
+    #  will have to see how 'item' page is built, affected
     if kind == 'list':
-        # form data is coming from the 'lineup' page,
+        # form data is coming from the 'posts' or 'lineup' page,
         # which can have multiple changes on multiple assets
         for k, v in form_data_dict.items():
             if k != "action":
@@ -304,14 +317,14 @@ def parse_form(form_data, kind="list"):
                         # check if empty string
                         if item:
                             asset_id, field, new_value = item.split('__')
-                            print(f"++++++++\nSetting this item: {asset_id} to {field}: {new_value}\n++++++++")
-                            db.update({field: int(new_value)}, Record.asset_id == asset_id)
+                            print(f"List++++++++\nSetting this item: {asset_id} to {field}: {new_value}\n++++++++")
+                            #  db.update({field: int(new_value)}, Record.asset_id == asset_id)
                 else:
                     # check if empty string
                     if v:
                         asset_id, field, new_value = v.split('__')
                         print(f"++++++++\nSetting this item: {asset_id} to {field}: {new_value}\n++++++++")
-                        db.update({field: int(new_value)}, Record.asset_id == asset_id)
+                        #  db.update({field: int(new_value)}, Record.asset_id == asset_id)
     else:
         # form data is coming from the 'item' page instead,
         # mutiple changes possible but only 1 asset affected

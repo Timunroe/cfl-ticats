@@ -17,6 +17,8 @@ def index():
 @app.route('/feed', methods=['GET', 'POST'])
 def feed():
     if request.method == 'POST':
+        if request.form['action'] == 'save':
+            model.parse_form(request.form)
         if request.form['action'] == 'fetch':
             model.get_new_data()
     template_data = {"items": model.get_posts('published')}

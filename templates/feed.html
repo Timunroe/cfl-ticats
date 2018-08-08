@@ -1,19 +1,18 @@
 {% extends '_base.html' %} {% set active_page = 'feed' %}
 
-{% block body %}
+{%- block body -%}
 <main role="main" class="container">
     <h3 class="">Posts</h3>
 
     <form action="/feed" method="post">
         <p>
             <button type="submit" name="action" class="btn btn-dark" value="save">Update Database</button>
-            <button type="submit" name="action" class="btn btn-primary" value="deploy">Update Website</button>
             <button type="submit" name="action" class="btn btn-success" value="fetch">Fetch New Data</button>
         </p>
         <div class="">
             {%- for item in data['items'] -%}
-            {% include 'includes/_data_list.html' %}
-            {% endfor %}
+            {%- include 'includes/_data_list.html' -%}
+            {%- endfor -%}
         </div>    
     </form>
     <!--     <div class="">
@@ -21,4 +20,4 @@
         <a href="/view" class="btn btn-primary my-2">Search/Edit</a>
     </div> -->
 </main>
-{% endblock %}
+{%- endblock -%}
