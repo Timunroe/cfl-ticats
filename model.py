@@ -20,19 +20,20 @@ def parse_feed(items):
         # post['type'] = x['contentType'] # either ArticleStory or ArticleBlogpost
         post['asset_id'] = item['assetId']
         post['source_api'] = item['newsSource']
-        post['tags_api'] = []
         if 'imageCaption' in item:
             post['caption_api'] = smartypants.smartypants(item['imageCaption'].strip())
         else:
             post['caption_api'] = ""
-        # NOTE THIS FAILS IF NO SUBCATEGORIES, LIKE A STAFF STORY WITH JUST 'SPORTS'
-        # USE CATEGORIES IN FEED INSTEAD?
-        post['categories_api'] = item['categories']  # always a list from source
+        # start of taxonomy: sections [DNN categories] > categories [DNN subcategories] > topics (leagues) > tags
+        post['sections_api'] = item['categories']  # always a list from source
         if 'categoriesSubCategories' in item:  # always a list OR does not exist
             regex = re.compile(r"^.*\|\|", re.IGNORECASE)
-            post['categoriesSub_api'] = list(set([regex.sub('', x) for x in item['categoriesSubCategories']]))
+            post['categories_api'] = list(set([regex.sub('', x) for x in item['categoriesSubCategories']]))
         else:
-            post['categoriesSub_api'] = ""
+            post['categories_api'] = ""
+        post['tags_api'] = []
+        post['topics_api'] = []
+        # end of taxonomy
         post['desc_api'] = smartypants.smartypants(item['description'].strip())
         post['desc_api'] = " ".join(post['desc_api'].split())
         if item['contentType'] == 'ArticleBlogpost':
@@ -40,6 +41,7 @@ def parse_feed(items):
         else:
             post['link'] = 'https://www.thespec.com/news-story/' + \
                 item['assetId'] + '-' + item['titleAlias'] + '/'
+        # start of images
         if 'superPortraitUrl' in item:
             post['img_api'] = item['superPortraitUrl']
         else:
@@ -48,6 +50,7 @@ def parse_feed(items):
             post['img_api_thumb'] = item['image150x100Url']
         else:
             post['img_api_thumb'] = ""
+        # end of images
         post['pubdate_api'] = item['publishFromDate']
         date_object = datetime.datetime.strptime(post['pubdate_api'], '%Y-%m-%dT%H:%M:%S')
         post['timestamp'] = date_object.strftime('%b %d %I:%M %p')

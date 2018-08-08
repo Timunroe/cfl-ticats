@@ -36,6 +36,59 @@
                 {% endif %}
                 </select>
             </div>
+            <div class="mr-3">
+                <label class="small" style="" for="sections">SEC</label>
+                <select multiple class="" name="sections">
+                {% for section in ["News", "Sports", "Opinion", "Living", "WhatsOn"] %}
+                <option
+                {% if item['sections_user'] %}
+                {% if section in item['sections_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__sections__{{section}}" {% endif %}
+                {% else %}
+                {% if section in item['sections_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__sections__{{section}}" {% endif %}
+                {% endif %}           
+                >{{ section }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mr-3">
+                <label class="small" style="" for="categories">CAT</label>
+                <select multiple class="" name="categories">
+                {% for category in ["Baseball", "Basketball", "Football", "Golf", "Hockey", "Soccer", "Tennis"] %}
+                <option
+                {% if item['categories_user'] %}
+                {% if category in item['categories_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__categories__{{category}}" {% endif %}
+                {% else %}
+                {% if category in item['categories_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__categories__{{category}}" {% endif %}
+                {% endif %}  
+                >{{ category }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mr-3">
+                <label class="small" style="" for="topics">TOPIC</label>
+                <select multiple class="" name="topics">
+                {% for category in ["CFL", "NFL", "NBA", "MLB", "MLS", "NHL", "AHL", "OHL"] %}
+                <option
+                {% if item['topics_user'] %}
+                {% if category in item['topics_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__topics__{{topic}}" {% endif %}
+                {% else %}
+                {% if category in item['topics_api'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__topics__{{topic}}" {% endif %}
+                {% endif %}  
+                >{{ category }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="mr-3">
+                <label class="small" style="" for="tags">TAGS</label>
+                <select multiple class="" name="tags">
+                {% for tag in ["CFL", "NFL"] %}
+                <option
+                {% if tag in item['tags_user'] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__tags__{{tag}}" {% endif %}
+                >{{ category }}</option>
+                {% endfor %}
+                </select>
+            </div>
+
             {% if active_page == 'lineup' -%}
             <div class="mr-3">
                 <label class="small" style="" for="rank">RANK</label>

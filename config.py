@@ -10,15 +10,17 @@ config = {
         'rank_time': 0,  # int
         'label_user': '',
         'title_user': '',
-        'categories_user': '',  # will always be a list from source
-        'categoriesSub_user': '',  # either a list or does not exist from source
+        'sections_user': [],  # will always be a list from source
+        'categories_user': [],  # either a list or does not exist from source
+        'topics_user': [],  # list of strings
         'tags_user': [],  # list of strings
     },
+    # section -> category -> topic -> tags
     "db_fields": [
-        'asset_id', 'author_api', 'caption_api', 'sections_api', 'categories_api', 'label_api',
+        'asset_id', 'author_api', 'caption_api', 'categories_api', 'label_api',
         'source_api', 'desc_api', 'draft_api', 'link', 'img_api',
-        'img_api_thumb', 'pubdate_api', 'region_api', 'site_api', 'tags_api',
-        'timestamp', 'title_api'
+        'img_api_thumb', 'pubdate_api', 'region_api', 'sections_api', 'site_api', 'tags_api',
+        'timestamp', 'title_api', 'topics_api'
     ],
     "apis": [
         {
@@ -43,11 +45,7 @@ config = {
         },
     ],
     "munge": [],
-    # category -> section -> topic -> tags
-    "categories": ["football"],
-    "sections": ["CFL", "NFL", "US College", "Canadian University"],
-    "topics": ["HAM", "BC", "CGY", "EDM", "MTL", "OTT", "TOR", "SSK", "WPG"],
-    "tags": ["Opinion", "Gameday", "Profile", "Feature", "League"],
+    # section -> category -> topic -> tags
     "schedule": [
         {
             "name":
