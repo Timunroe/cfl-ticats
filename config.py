@@ -4,10 +4,10 @@ config = {
     "db_name": "db.json",
     "db_fields_dflt": {
         'desc_user': '',
-        #  TODO: Use ints or strings? Forms always return strings!!! Easier to use strings and convert if needed?
-        'draft_user': 0,  # int 0:published, 1-2: draft
-        'rank': 0,  # int
-        'rank_time': 0,  # int
+        #  TODO: Use ints or strings? Forms always return strings!!! IN LISTS!!! Easier to use strings and convert if needed.
+        'draft_user': ['0'],  # str 0:published, 1-2: draft
+        'rank': ['0'],  # str
+        'rank_time': ['0'],  # str
         'label_user': '',
         'title_user': '',
         'sections_user': [],  # will always be a list from source
