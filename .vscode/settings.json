@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/timmunroe/.local/share/virtualenvs/cfl-ticats-9ui0_JYo/bin/python",
+    "python.pythonPath": "/Users/tim/.local/share/virtualenvs/cfl_ticats-JDQ8PRIJ/bin/python",
     "python.formatting.provider": "yapf",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,

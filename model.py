@@ -12,6 +12,43 @@ import time
 
 def parse_feed(items):
     # input a list of dicts (ie fetched data from an api, rss)
+    #keys = [(post key1, feed key1), (post key2, feed key2), ...]
+    keys = [
+        ('asset_id', 'assetId', ""),
+        ('caption_api', 'imageCaption', "" ),
+        ('source_api', 'newsSource', ""),
+        ('title_api', 'title', ""),
+        ('categories_api', 'categoriesSubCategories', ""),
+        ('desc_api', 'description', ""),
+        ('img_api', 'superPortraitUrl', ""),
+        ('img_api_thumb', 'image150x100Url', ''),
+        ('pubdate_api', 'publishFromDate', ''),
+        ('site_api', 'newspaperName', ''),
+        ('author_api', 'authorName', ''),
+        ('rootCategory', 'rootCategory', '')
+    ]
+    posts = []
+    for item in items:
+        post = {}
+        for field in keys:
+            post[field[0]] = item.get(field[1], field[2])
+        post['draft_api'] = False
+        post['link'] = 'https://www.thespec.com/news-story/' + \
+            item['assetId'] + '-' + item['titleAlias'] + '/'
+        post['tags_api'] = []
+        posts.append(post)
+    # filter out duplicates (if dealing with multiple sources)
+    unique_posts = list({v['asset_id']: v for v in posts}.values())
+    # sorted_posts = sorted(unique_posts, key=itemgetter('dnn_pubdate'), reverse=True)
+    print("++++++++++\nResult of parse_feed:")
+    print(unique_posts)
+    return unique_posts
+
+
+
+
+
+    # input a list of dicts (ie fetched data from an api, rss)
     # TODO: SIMPLIFY, loop through list of field names, save tweaking for MUNGE
     # see World Cup project on laptop?
     posts = []
