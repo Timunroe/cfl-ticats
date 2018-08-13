@@ -12,124 +12,44 @@ import time
 
 def parse_feed(items):
     # input a list of dicts (ie fetched data from an api, rss)
-    #keys = [(post key1, feed key1), (post key2, feed key2), ...]
+    # keys = [(post key1, feed key1, default if not found), ...]
+    # dict .get() method handles if key not found in dict!
     keys = [
-        ('asset_id', 'assetId', ""),
-        ('caption_api', 'imageCaption', "" ),
-        ('source_api', 'newsSource', ""),
-        ('title_api', 'title', ""),
-        ('categories_api', 'categoriesSubCategories', ""),
-        ('desc_api', 'description', ""),
-        ('img_api', 'superPortraitUrl', ""),
-        ('img_api_thumb', 'image150x100Url', ''),
-        ('pubdate_api', 'publishFromDate', ''),
+        ('asset_id', 'assetId', ''),
+        ('title_api', 'title', ''),
+        ('source_api', 'newsSource', ''),
         ('site_api', 'newspaperName', ''),
         ('author_api', 'authorName', ''),
-        ('rootCategory', 'rootCategory', '')
+        ('pubdate_api', 'publishFromDate', ''),
+        # helpers
+        ('desc_api', 'description', ''),
+        ('caption_api', 'imageCaption', ''),
+        # start of taxonomy: sections [DNN categories] > categories [DNN subcategories] > topics > tags
+        ('sections_api', 'categories', []),
+        ('categories_api', 'categoriesSubCategories', []),
+        # images data
+        ('img_api', 'superPortraitUrl', ''),
+        ('img_api_thumb', 'image150x100Url', ''),
     ]
     posts = []
     for item in items:
         post = {}
         for field in keys:
             post[field[0]] = item.get(field[1], field[2])
+        # new fields
         post['draft_api'] = False
-        post['link'] = 'https://www.thespec.com/news-story/' + \
-            item['assetId'] + '-' + item['titleAlias'] + '/'
-        post['tags_api'] = []
-        posts.append(post)
-    # filter out duplicates (if dealing with multiple sources)
-    unique_posts = list({v['asset_id']: v for v in posts}.values())
-    # sorted_posts = sorted(unique_posts, key=itemgetter('dnn_pubdate'), reverse=True)
-    print("++++++++++\nResult of parse_feed:")
-    print(unique_posts)
-    return unique_posts
-
-
-
-
-
-    # input a list of dicts (ie fetched data from an api, rss)
-    # TODO: SIMPLIFY, loop through list of field names, save tweaking for MUNGE
-    # see World Cup project on laptop?
-    posts = []
-    for item in items:
-        post = {}
-        # post['title'] = x['title'].strip().translate(str.maketrans({"'": r"\'"}))
-        post['title_api'] = smartypants.smartypants(item['title'].strip())
-        # post['type'] = x['contentType'] # either ArticleStory or ArticleBlogpost
-        post['asset_id'] = item['assetId']
-        post['source_api'] = item['newsSource']
-        if 'imageCaption' in item:
-            post['caption_api'] = smartypants.smartypants(item['imageCaption'].strip())
-        else:
-            post['caption_api'] = ""
-        # start of taxonomy: sections [DNN categories] > categories [DNN subcategories] > topics (leagues) > tags
         post['tags_api'] = []
         post['topics_api'] = []
-        post['sections_api'] = item['categories']  # always a list from source
-        if 'categoriesSubCategories' in item:  # always a list OR does not exist
-            regex = re.compile(r"^.*\|\|", re.IGNORECASE)
-            post['categories_api'] = list(set([regex.sub('', x) for x in item['categoriesSubCategories']]))
-        else:
-            post['categories_api'] = ""
-
-        # end of taxonomy
-        post['desc_api'] = smartypants.smartypants(item['description'].strip())
-        post['desc_api'] = " ".join(post['desc_api'].split())
-        if item['contentType'] == 'ArticleBlogpost':
-            post['link'] = 'https://www.thespec.com/blogs/post/' + item['assetId'] + '-' + item['titleAlias'] + '/'
-        else:
-            post['link'] = 'https://www.thespec.com/news-story/' + \
-                item['assetId'] + '-' + item['titleAlias'] + '/'
-        # start of images
-        if 'superPortraitUrl' in item:
-            post['img_api'] = item['superPortraitUrl']
-        else:
-            post['img_api'] = ""
-        if 'image150x100Url' in item:
-            post['img_api_thumb'] = item['image150x100Url']
-        else:
-            post['img_api_thumb'] = ""
-        # end of images
-        post['pubdate_api'] = item['publishFromDate']
-        date_object = datetime.datetime.strptime(post['pubdate_api'], '%Y-%m-%dT%H:%M:%S')
-        post['timestamp'] = date_object.strftime('%b %d %I:%M %p')
-        post['timestamp'] = post['timestamp'].replace(' 0', ' ').replace('Jul', 'July').replace('Apr', 'April').replace('Mar', 'March').replace('Jun', "June").replace(':00', '')
-        post['timestamp_epoch'] = int((date_object - datetime.datetime(1970, 1, 1)).total_seconds())
-        post['site_api'] = item['newspaperName']
-        post['author_api'] = item['authorName']
-        if item['rootCategory'] == "opinion":
-            post['label_api'] = "OPINION"
-        else:
-            post['label_api'] = ""
-        if post['label_api']:
-            if post['author_api']:
-                post['label_api'] += " | " + post['author_api']
-            if post['source_api']:
-                post['label_api'] += " | " + post['source_api']
-            else:
-                if post['site_api']:
-                    post['label_api'] += " | " + post['site_api']
-        else:
-            if post['author_api']:
-                post['label_api'] += post['author_api']
-                if post['source_api']:
-                    post['label_api'] += " | " + post['source_api']
-                else:
-                    if post['site_api']:
-                        post['label_api'] += " | " + post['site_api']
-            else:
-                if post['source_api']:
-                    post['label_api'] += post['source_api']
-                else:
-                    if post['site_api']:
-                        post['label_api'] += post['site_api']
-        post['label_api'] = post['label_api'].replace("The Hamilton Spectator", "The Spec").replace("Hamilton Spectator", "The Spec").replace("Toronto Star", "The Star")
-        post['draft_api'] = False
+        # synthesized fields
+        # NEEDS REWRITE: DOMAIN NEEDS TO BE ADDED AT POINT OF PUBLISHING
+        post['link'] = 'https://www.thespec.com/news-story/' + \
+            item['assetId'] + '-' + item['titleAlias'] + '/'
         posts.append(post)
     # filter out duplicates (if dealing with multiple sources)
+    # https://stackoverflow.com/questions/11092511/python-list-of-unique-dictionaries
     unique_posts = list({v['asset_id']: v for v in posts}.values())
-    # sorted_posts = sorted(unique_posts, key=itemgetter('dnn_pubdate'), reverse=True)
+    # print("++++++++++\nResult of parse_feed:")
+    # print(unique_posts)
     return unique_posts
 
 
@@ -152,27 +72,37 @@ def filter_feed(items):
     return new_list
 
 
-def munge_feed(items):
-    # input a list of dicts (ie fetched data from an api, rss)
-    # filters are list of tuples, with key and value
-    # all items filtered out will be set to 'draft'
-    filters = cfg.config['munge']
-    new_list = []
-    if filters:
-        for item in items:
-            for key, test, the_match, action in filters:
-                if test is 'contains':
-                    m = re.compile(the_match)
-                    if m.search(item[key]):
-                        if action['action'] is 'set_key':
-                            item[action['section']] = action['value']
-                        if action['action'] is 'replace':
-                            item[key] = re.sub(action['target'], action['sub'], item[key])
-
-            new_list.append(item)
-        return new_list
+def str_len_check(str):
+    if len(str) > 0:
+        return 1
     else:
-        return items
+        return 0
+
+
+def munge_feed(items):
+    print("++++++++++\nIn munge_feed module ...")
+    for post in items:
+        post['title_api'] = smartypants.smartypants(post['title_api'].strip())
+        post['caption_api'] = smartypants.smartypants(post['caption_api'].strip())
+        regex = re.compile(r"^.*\|\|", re.IGNORECASE)
+        post['categories_api'] = list(set([regex.sub('', x) for x in post['categories_api']]))
+        post['desc_api'] = smartypants.smartypants(post['desc_api'].strip())
+        post['desc_api'] = " ".join(post['desc_api'].split())
+        date_object = datetime.datetime.strptime(post['pubdate_api'], '%Y-%m-%dT%H:%M:%S')
+        post['timestamp'] = date_object.strftime('%b %d %I:%M %p')
+        post['timestamp'] = post['timestamp'].replace(' 0', ' ').replace('Jul', 'July').replace('Apr', 'April').replace('Mar', 'March').replace('Jun', "June").replace(':00', '')
+        post['timestamp_epoch'] = int((date_object - datetime.datetime(1970, 1, 1)).total_seconds())
+        if "opinion" in post['sections_api']:
+            label_start = "OPINION"
+        else:
+            label_start = ""
+        if post['source_api']:
+            label_end = post['source_api']
+        else:
+            label_end = post['site_api']
+        post['label_api'] = ((label_start + ' | ') * str_len_check(label_start)) + ((post['author_api'] + ' | ') * str_len_check(post['author_api'])) + label_end
+        post['label_api'] = post['label_api'].replace("The Hamilton Spectator", "The Spec").replace("Hamilton Spectator", "The Spec").replace("Toronto Star", "The Star")
+    return items
 
 
 def db_insert(c_posts, check=True):
@@ -220,8 +150,8 @@ def get_new_data():
     for api in cfg.config['apis']:
         data = fetch.fetch_data(s_url=api['url'], l_filter=api['filter'])
         raw_posts = parse_feed(data)
-        # posts = munge_feed(raw_posts)
-        posts = filter_feed(raw_posts)
+        posts = munge_feed(raw_posts)
+        # posts = filter_feed(raw_posts)
         db_insert(posts)
         time.sleep(1)
     expire()
