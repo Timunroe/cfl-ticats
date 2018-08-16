@@ -7,6 +7,7 @@
     ] 
 %}
 
+
 <div class="card">
     <a href="/view/{{ item['asset_id'] }}" class="list-group-item-action">
         <div class="card-body d-flex align-items-start">
@@ -46,7 +47,7 @@
             {%- for id, id_list in form_info -%}
             <div class="small mr-3 mb-3">
                 <label class="small mr-2" style="display: block;" for="{{id}}">{{id|upper}}</label>
-                <select multiple="multiple" class="test" name="{{id}}" size="2">
+                <select multiple="multiple" class="test" name="{{id}}" id="{{id}}_{{outer_loop.index}}">
                 {%- for x in id_list|sort -%}
                 <option
                 {%- set field_user = id +'_user' -%}

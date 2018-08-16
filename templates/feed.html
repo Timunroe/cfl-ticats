@@ -11,6 +11,7 @@
         </p>
         <div class="">
             {%- for item in data['items'] -%}
+            {% set outer_loop = loop %}
             {%- include 'includes/_data_list.html' -%}
             {%- endfor -%}
         </div>    
