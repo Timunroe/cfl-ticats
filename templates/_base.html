@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Sports pages curation tool</title>
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
     
     <!--  <link rel="stylesheet" type="text/css" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='app.css') }}">
@@ -15,7 +15,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 
 <!--     {% if (page == 'add_entry') or (page == 'view_entry') %}
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -37,9 +37,201 @@
         });
     </script> -->
     <script>
-            $(function() {
-                $('.test').SumoSelect();
-            });
-            </script>
+
+      // https://gomakethings.com/check-if-two-arrays-or-objects-are-equal-with-javascript/
+var isEqual = function (value, other) {
+
+// Get the value type
+var type = Object.prototype.toString.call(value);
+
+// If the two objects are not the same type, return false
+if (type !== Object.prototype.toString.call(other)) return false;
+
+// If items are not an object or array, return false
+if (['[object Array]', '[object Object]'].indexOf(type) < 0) return false;
+
+// Compare the length of the length of the two items
+var valueLen = type === '[object Array]' ? value.length : Object.keys(value).length;
+var otherLen = type === '[object Array]' ? other.length : Object.keys(other).length;
+if (valueLen !== otherLen) return false;
+
+// Compare two items
+var compare = function (item1, item2) {
+
+  // Get the object type
+  var itemType = Object.prototype.toString.call(item1);
+
+  // If an object or array, compare recursively
+  if (['[object Array]', '[object Object]'].indexOf(itemType) >= 0) {
+    if (!isEqual(item1, item2)) return false;
+  }
+
+  // Otherwise, do a simple comparison
+  else {
+
+    // If the two items are not the same type, return false
+    if (itemType !== Object.prototype.toString.call(item2)) return false;
+
+    // Else if it's a function, convert to a string and compare
+    // Otherwise, just compare
+    if (itemType === '[object Function]') {
+      if (item1.toString() !== item2.toString()) return false;
+    } else {
+      if (item1 !== item2) return false;
+    }
+
+  }
+};
+
+// Compare properties
+if (type === '[object Array]') {
+  for (var i = 0; i < valueLen; i++) {
+    if (compare(value[i], other[i]) === false) return false;
+  }
+} else {
+  for (var key in value) {
+    if (value.hasOwnProperty(key)) {
+      if (compare(value[key], other[key]) === false) return false;
+    }
+  }
+}
+
+// If nothing failed, return true
+return true;
+
+};
+
+function build_options(new_list, old_list, identifier, menu_kind) {
+// new_list: new options for next menu
+// old_list: current selection in next menu
+// db_list: values currently in db for asset
+// menu_kind: categories, topics or tags
+console.log("New list is:", new_list);
+console.log("Old list is:", old_list);
+var html = [];
+html = new_list.map((val) => {
+  if (old_list.includes(val)) {
+    console.log("current selection");
+    return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '" selected>' + val + "</option>";
+  } else {
+    console.log("new selection");
+    return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '">' + val + "</option>";
+  }
+});
+console.log("HTML is: ", html);
+return html.join("");
+}
+
+function findProp(obj, key, out) {
+var i,
+  proto = Object.prototype,
+  ts = proto.toString,
+  hasOwn = proto.hasOwnProperty.bind(obj);
+
+if ("[object Array]" !== ts.call(out)) out = [];
+
+for (i in obj) {
+  if (hasOwn(i)) {
+    if (i === key) {
+      out.push(obj[i]);
+    } else if (
+      "[object Array]" === ts.call(obj[i]) ||
+      "[object Object]" === ts.call(obj[i])
+    ) {
+      findProp(obj[i], key, out);
+    }
+  }
+}
+return out;
+}
+
+$(document).ready(function() {
+$(".test").select2(); // initialize
+
+var taxonomy = {
+  News: {
+    Municipal_Election: {
+      mayor: ["eisenberger", "graydon"],
+      wards: ["ward_1", "ward_2"]
+    }
+  },
+  Opinion: {
+    Column: {
+      col: [""]
+    },
+    Commentary: {
+      comm: [""]
+    }
+  },
+  Sports: {
+    Hockey: {
+      NHL: ["Leafs", "Habs", "Sabres"],
+      OHL: ["Bulldogs", "Rangers", "Storm"]
+    },
+    Football: {
+      CFL: ["Ticats", "Bombers", "Argos", "Stampeders"],
+      NFL: ["Bills", "Jets", "Giants", "Dolphins"]
+    }
+  }
+};
+var nextUp = {
+  sections: "categories",
+  categories: "topics",
+  topics: "tags"
+};
+
+$(".test").change(function() {
+  var nextMenuOptions = [];
+  // NEED TO KEEP ORIGINAL SELECTED VALUES AS PAGE BUILT WITH
+  // Get the id, type of this module
+  var menuID = String($(this).attr("id"));
+  var string_parts = menuID.split("__");
+  var assetID = string_parts[0];
+  // console.log("Asset is: ", assetID);
+  var menuKind = string_parts[1];
+  if (menuKind != 'tags') {
+    // get the kind of the next menu
+    var nextMenuKind = nextUp[menuKind];
+    // Get the selection in this module
+    var menuSelection = $(this).val();
+    // Then get the selector for the next menu in this module
+    var nextMenuID = "#" + assetID + "__" + nextUp[menuKind];
+    console.log("Next Menu ID is: ", nextMenuID);
+    // Get the selection for the next menu in this module
+    var nextMenuSelection = $(nextMenuID).val().map( function(value, index) {
+      return ((value.split("__"))[2]).replace('_user', '');                                                                                   
+    });
+    console.log("nexMenuSelection is:", nextMenuSelection);
+    // Calculate the possible options available for next menu
+    // while re-selecting the current selection
+    $.each(menuSelection, function(index, value) {
+      console.log("Value is: ", value);
+      value = (value.split("__"))[2]
+      var temp = findProp(taxonomy, value);
+      console.log(temp);
+      if (menuKind == "topics") {
+        var nextMenuItems = temp[0];
+      } else {
+        var nextMenuItems = Object.keys(temp[0]);
+      }
+      $.each(nextMenuItems, function(index, value) {
+        nextMenuOptions.push(value);
+      }); // end inner each
+    }); // end outer each
+    // console.log("Child list is: ", nextMenuOptions);
+    var html = build_options(
+      nextMenuOptions,
+      nextMenuSelection,
+      assetID,
+      nextMenuKind
+    );
+    console.log("HTML is: ", html);
+    $(nextMenuID).html(html);
+  }
+}); // end change
+}); // end ready function
+
+
+    </script>
 </body>
 </html>

@@ -4,13 +4,14 @@
 <main role="main" class="container">
     <h3 class="">Posts</h3>
 
-    <form action="/feed" method="post">
+    <form action="/feed" method="post" id="theForm">
         <p>
             <button type="submit" name="action" class="btn btn-dark" value="save">Update Database</button>
             <button type="submit" name="action" class="btn btn-success" value="fetch">Fetch New Data</button>
         </p>
         <div class="">
             {%- for item in data['items'] -%}
+            {% set outer_loop = loop %}
             {%- include 'includes/_data_list.html' -%}
             {%- endfor -%}
         </div>    

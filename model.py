@@ -265,12 +265,14 @@ def parse_form(form_data, kind="list"):
     db = TinyDB('db.json')
     Record = Query()
     print("incoming form data:")
-    # print(form_data)
-    # print("converted to a dict")
-    print(dict(form_data))
+    print(form_data)
     # form data will have keys, values that may be lists or a single string.
     form_data_dict = dict(form_data)
+    print("++++\nconverted to a dict")
+    print(form_data_dict)
     l = [x for k, v in form_data_dict.items() if k != 'action' for x in v if x]
+    print("++++\nl is: ", l)
+    # now go through list of changes and re-organize
     changes = []
     index = []
     for x in l:
@@ -287,13 +289,18 @@ def parse_form(form_data, kind="list"):
             d[field] = [value]
             changes.append(d)
 
-            # end result should be: [{'asset_id': xxx, 'draft_user': ['2'], 'topics': ['a', 'b', 'c']}, {{'asset_id': yyy, 'tags': ['e', 'f', 'g']}}]
-            print(changes)
-            # to update record, loop through changes, get asset_id, delete that k-v, then use rest of dict to update record
-
-        # db.update(post_update, Record.asset_id == asset_id)
-        db.close()
-        return
+    # end result should be: [{'asset_id': xxx, 'draft_user': ['2'], 'topics': ['a', 'b', 'c']}, {{'asset_id': yyy, 'tags': ['e', 'f', 'g']}}]
+    print("++++\n", changes)
+    # to update record, loop through changes, get asset_id, delete that k-v, then use rest of dict to update record
+    # {'asset_id': '8814243', 'sections': ['News', 'Sports'], 'categories': ['Football']}, {'asset_id': '8814196', 'sections': ['Sports'], 'categories': ['Football']}
+    for new_item in changes:
+        # get record whose asset_id is item['asset_id']
+        id_s = new_item.pop('asset_id')
+        print("+++++\nNew item is: ", new_item)
+        db.update(new_item, Record.asset_id == id_s)
+    # db.update(post_update, Record.asset_id == asset_id)
+    db.close()
+    return
 
 
 def set_value(value_list, value):

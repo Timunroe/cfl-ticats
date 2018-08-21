@@ -44,30 +44,31 @@
                 </select>
             </div>
             {%- for id, id_list in form_info -%}
-            <div class="small mr-3 mb-3">
+            <div class="small mr-3 mb-3" style="min-width: 150px;">
                 <label class="small mr-2" style="display: block;" for="{{id}}">{{id|upper}}</label>
-                <select multiple="multiple" class="test" name="{{id}}" size="2">
+                {% set str = id + '_user' %}
+                {% if item[str] %}
+                {% set field = id + '_user' %}
+                {% else %}
+                {% set field = id + '_api' %}
+                {% endif %}
+                <select multiple="multiple" class="custom-select test" name="{{id}}" size="2" id="{{item['asset_id']}}__{{id}}">
                 {%- for x in id_list|sort -%}
-                <option
-                {%- set field_user = id +'_user' -%}
-                {%- if item[field_user] -%}
-                {%- if x in item[field_user] -%} value selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}__{{x}}" {%- endif -%}
-                {%- else %}
-                {%- set field_api = id +'_api' %}
-                {%- if x in item[field_api] %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}__{{x}}" {%- endif -%}
-                {%- endif -%}           
+                <option 
+                {% if x in item[field] -%} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" {%- endif -%}
                 >{{ x }}</option>
-                {%- endfor -%}
+                {% endfor %}
                 </select>
             </div>
             {%- endfor -%}
+
             {%- if active_page == 'lineup' -%}
             <div class="mr-3">
                 <label class="small" style="" for="rank">RANK</label>
                 <select class="" name="rank">
                 {% for rank in [0, 1, 2, 3, 4, 5, 6] %}
                 <option
-                {% if item['rank']==rank %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__rank__{{rank}}" {% endif %}
+                {% if item['rank'] == rank %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__rank__{{rank}}" {% endif %}
                 >{{ rank }}</option>
                 {% endfor %}
                 </select>
@@ -77,7 +78,7 @@
                 <select class="" name="rank_time">
                 {%- for hours in [0, 4, 8, 12, 24] -%}
                 <option
-                {%- if item['rank_time']==hours %} value selected="selected"
+                {%- if item['rank_time'] == hours %} value selected="selected"
                 {%- else -%} value="{{ item['asset_id'] }}__rank_time__{{ hours }}" {%- endif -%}
                 >{{ hours }}</option>
                 {%- endfor -%}
