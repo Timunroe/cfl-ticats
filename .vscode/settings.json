@@ -1,8 +1,0 @@
-{
-    "python.pythonPath": "/Users/timmunroe/.local/share/virtualenvs/cfl-ticats-9ui0_JYo/bin/python",
-    "python.formatting.provider": "yapf",
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Args": ["--ignore=E501"]
-}
