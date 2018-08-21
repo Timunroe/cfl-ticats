@@ -34,7 +34,7 @@
         <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
             <div class="small mr-3 mb-3">
                 <label class="small" style="display: block;" for="draft">STATUS</label>
-                <select class="test" style="" name="draft">
+                <select class="" style="" name="draft">
                 {%- if item['draft_user'] == ['0'] -%}
                 <option value="{{ item['asset_id'] }}__draft_user__2">DRAFT</option>
                 <option value selected="selected">PUBLISH</option>
@@ -56,8 +56,7 @@
                 <select multiple="multiple" class="custom-select test" name="{{id}}" size="2" id="{{item['asset_id']}}__{{id}}">
                 {%- for x in id_list|sort -%}
                 <option 
-                {% if x in item[field] -%} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" selected="selected" {% else %} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" {%- endif -%}
-                >{{ x }}</option>
+                {% if x in item[field] -%} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" selected="selected">{{ x }}</option> {% else %} value=""></option>{%- endif -%}
                 {% endfor %}
                 </select>
             </div>
