@@ -1,6 +1,9 @@
 #Mac files
 .DS_Store
 
+#VS Code
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,10 +108,16 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+<<<<<<< HEAD
 .vscode/settings.json
+=======
+>>>>>>> d36174dad16a115d99102b20c987cb13b00bb4f3
 
 #Node
 node_modules/
 package-lock.json
+<<<<<<< HEAD
 
 .vscode/settings.json
+=======
+>>>>>>> d36174dad16a115d99102b20c987cb13b00bb4f3
