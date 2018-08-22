@@ -67,10 +67,9 @@ $(document).ready(function () {
             Baseball: {
                 MLB: ['Jays'] // playoffs 'ALCS', 'ALDS', 'NLCS', 'NLDS', 'Wildcard'
             },
-
             Football: {
                 CFL: ["Ticats"], // playoffs "East semifinal", "East final", "West semifinal", "West final",
-                NFL: ["Bills"], // playoffs "Wildcard", "Division", "Conference"
+                NFL: ["Bills", "AFC", "NFC"], // playoffs "Wildcard", "Division", "Conference"
                 NCAA: ["BCS"],
                 USPORTS: ['McMaster'] // playoffs
             },

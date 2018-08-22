@@ -233,7 +233,7 @@ def get_lineup(kind):
             # what happens if items have same rank?
             # I think they get put in according to how list was sorted
             # so latest item with same rank is ahead of older item with same rank?
-            idx = (item['rank'] - 1)
+            idx = (int(item['rank']) - 1)
             the_list[idx:idx] = [item]
     if kind == "drafts":
         # draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
@@ -256,7 +256,8 @@ def request_item(form_data, asset_id):
 
 def parse_form(form_data, kind="list"):
     #  TODO: NEEDS TO BE REWRITTEN!!!
-    #  TODO: Don't need param 'kind', won't everthing be a list?
+    #  All taxonomy will be a list (sections, categories, topics, tags)
+    # 
     # EXAMPLE OF INCOMING FORM DATA, where I set a published item to draft, then added 2 topics
     # {'action': ['save'], 'draft': ['8805675__draft_user__2', '', ''], 'sections': ['', '', '', ''], 'topics': ['8805675__topics__AHL', '8805675__topics__NBA'], 'categories': ['', '']}
     # added 1 category, topic, tag

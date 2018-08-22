@@ -5,9 +5,9 @@ config = {
     "db_fields_dflt": {
         'desc_user': '',
         #  TODO: Use ints or strings? Forms always return strings!!! IN LISTS!!! Easier to use strings and convert if needed.
-        'draft_user': ['0'],  # str 0:published, 1-2: draft
-        'rank': ['0'],  # str
-        'rank_time': ['0'],  # str
+        'draft_user': '0',  # str 0:published, 1-2: draft
+        'rank': '0',  # str
+        'rank_time': '0',  # str
         'label_user': '',
         'title_user': '',
         'sections_user': [],  # will always be a list from source
@@ -30,7 +30,7 @@ config = {
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=5',
+            'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=8',
             "filter": ["searchResultView"]
         },
         {

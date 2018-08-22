@@ -1,12 +1,4 @@
 {% set active_page = active_page -%}
-{% set form_info = [
-    ('sections',["News", "Sports", "Opinion", "Living", "WhatsOn"]), 
-    ('categories', ["Baseball", "Basketball", "Football", "Golf", "Hockey", "Soccer", "Tennis"]),
-    ('topics', ["CFL", "NFL", "NBA", "MLB", "MLS", "NHL", "AHL", "OHL"]),
-    ('tags', ["Jays", "Bulldogs", "Raptors", "TFC", "Leafs", "Marlies", "Ticats", "Bills"])
-    ] 
-%}
-
 
 <div class="card">
     <a href="/view/{{ item['asset_id'] }}" class="list-group-item-action">
@@ -44,20 +36,21 @@
                 {%- endif -%}
                 </select>
             </div>
-            {%- for id, id_list in form_info -%}
+            {%- for category in ["sections", "categories", "topics", "tags"] %}
             <div class="small mr-3 mb-3" style="min-width: 150px;">
-                <label class="small mr-2" style="display: block;" for="{{id}}">{{id|upper}}</label>
-                {% set str = id + '_user' %}
-                {% if item[str] %}
-                {% set field = id + '_user' %}
-                {% else %}
-                {% set field = id + '_api' %}
-                {% endif %}
-                <select multiple="multiple" class="custom-select test" name="{{id}}" size="2" id="{{item['asset_id']}}__{{id}}">
-                {%- for x in id_list|sort -%}
-                <option 
-                {% if x in item[field] -%} value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" selected="selected">{{ x }}</option> {% else %} value=""></option>{%- endif -%}
-                {% endfor %}
+                <label class="small mr-2" style="display: block;" for="{{id}}">{{category|upper}}</label>
+                {%- set str = category + '_user' -%}
+                {%- if item[str] -%}
+                    {% set field = category + '_user' %}
+                {%- else -%}
+                    {%- set field = category + '_api' -%}
+                {%- endif -%}
+                <select multiple="multiple" class="custom-select test" name="{{category}}" size="2" id="{{item['asset_id']}}__{{category}}">
+                {%- if item[field] -%}
+                    {%- for x in item[field] -%}
+                        <option value="{{ item['asset_id'] }}__{{id}}_user__{{x}}" selected="selected">{{ x }}</option>
+                    {%- endfor -%}
+                {%- endif -%} 
                 </select>
             </div>
             {%- endfor -%}
