@@ -63,6 +63,7 @@ $(document).ready(function () {
         Sports: {
             Basketball: {
                 NBA: ['Raptors'],
+                NCAA: [""],
             },
             Baseball: {
                 MLB: ['Jays'] // playoffs 'ALCS', 'ALDS', 'NLCS', 'NLDS', 'Wildcard'
