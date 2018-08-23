@@ -27,7 +27,7 @@
             <div class="small mr-3 mb-3">
                 <label class="small" style="display: block;" for="draft">STATUS</label>
                 <select class="" style="" name="draft">
-                {%- if item['draft_user'] == ['0'] -%}
+                {%- if item['draft_user'] == '0' -%}
                 <option value="{{ item['asset_id'] }}__draft_user__2">DRAFT</option>
                 <option value selected="selected">PUBLISH</option>
                 {%- else -%}

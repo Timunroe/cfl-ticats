@@ -132,7 +132,7 @@ def db_insert(c_posts, check=True):
                 # print(f"Post draft_api is: {post['draft_api']}")
                 if post['draft_api'] is True:
                     # print("Setting draft to 1 ...")
-                    new_post['draft_user'] = ['1']
+                    new_post['draft_user'] = '1'
                 # print("Defaults going in")
                 # print(new_post)
                 db.insert(new_post)
@@ -193,18 +193,18 @@ def get_posts(kind):
         if kind == 'published':
             # get records that are not in draft
             # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-            non_draft = db.search(Record.draft_user == ['0'])
+            non_draft = db.search(Record.draft_user == '0')
             # non_draft = [x for x in db.all() if x['draft_user'] == ['0']]
             the_list = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
         if kind == "drafts":
-            the_list = sorted(db.search(Record.draft_user != ['0']), key=itemgetter('pubdate_api'), reverse=True)
+            the_list = sorted(db.search(Record.draft_user != '0'), key=itemgetter('pubdate_api'), reverse=True)
         # print("Records going into lineup:")
         # print(records)
     db.close()
     return the_list
 
 
-def get_lineup(kind):
+def get_lineup(kind, page=None):
     # kind = "published|drafts|deleted"
     # +++++++++++++++++++++++++++++
     # how do we deal when draft/rank conflict?
@@ -223,10 +223,11 @@ def get_lineup(kind):
 
     if kind == 'published':
         # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-        non_draft = [x for x in db.all()
-                     if x['draft_user'] == ['0']]
-        non_rank_list = sorted([x for x in non_draft if x['rank'] == 0], key=itemgetter('pubdate_api'), reverse=True)
-        rank_list = sorted([x for x in non_draft if x['rank'] != 0], key=itemgetter('rank'))
+        non_draft = [x for x in db.all() if x['draft_user'] == '0']
+        if page:
+            non_draft = [x for x in non_draft if page.upper() in x['topics_user']]
+        non_rank_list = sorted([x for x in non_draft if x['rank'] == '0'], key=itemgetter('pubdate_api'), reverse=True)
+        rank_list = sorted([x for x in non_draft if x['rank'] != '0'], key=itemgetter('rank'))
         the_list = non_rank_list[:18]
         # need to insert items from rank list
         for item in rank_list:
@@ -237,7 +238,8 @@ def get_lineup(kind):
             the_list[idx:idx] = [item]
     if kind == "drafts":
         # draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
-        the_list = sorted(db.search(Record.draft_user != 0), key=itemgetter('pubdate_api'), reverse=True)
+        the_list = sorted(db.search(Record.draft_user != '0'), key=itemgetter('pubdate_api'), reverse=True)
+    print("++++\nThe Lineup is: ", the_list)
     db.close()
     # print("Records going into lineup:")
     # print(records)
@@ -312,7 +314,7 @@ def set_value(value_list, value):
     for item in value_list:
         if item:
             asset_id, new_value = item.split('__')
-            db.update({value: int(new_value)}, Record.asset_id == asset_id)
+            db.update({value: new_value}, Record.asset_id == asset_id)
             print(f"++++++++\nSetting this item: {asset_id} to {value}: {new_value}\n++++++++")
     db.close()
     return
@@ -328,7 +330,7 @@ def set_draft(ids, status=True):
     # given a list of asset_ids, set them to draft or publish depending on status
     db = TinyDB('db.json')
     Record = Query()
-    draft = ['2'] if status else ['0']
+    draft = '2' if status else '0'
     for item_id in ids:
         if item_id:
             db.update({'draft_user': draft}, Record.asset_id == item_id)

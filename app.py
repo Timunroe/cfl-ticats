@@ -71,7 +71,7 @@ def lineup(page_id):
             # This ensured the file was done being created.
         if request.form['action'] == 'fetch':
             model.get_new_data()
-    template_data = {"items": model.get_lineup('published')}
+    template_data = {"items": model.get_lineup('published', page_id)}
     return render_template(file_name, data=template_data, draft_check=False)
 
 
