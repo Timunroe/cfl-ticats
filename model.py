@@ -283,16 +283,22 @@ def parse_form(form_data, kind="list"):
         if asset_id in index:
             d = next(item for item in changes if item["asset_id"] == asset_id)
             if field not in d:
-                d[field] = [value]
+                if field == 'draft_user':
+                    d[field] = value
+                else:
+                    d[field] = [value]
             else:
                 d[field].append(value)
         else:
             index.append(asset_id)
             d = {'asset_id': asset_id}
-            d[field] = [value]
+            if field == 'draft_user':
+                d[field] = value
+            else:
+                d[field] = [value]
             changes.append(d)
 
-    # end result should be: [{'asset_id': xxx, 'draft_user': ['2'], 'topics': ['a', 'b', 'c']}, {{'asset_id': yyy, 'tags': ['e', 'f', 'g']}}]
+    # end result should be: [{'asset_id': xxx, 'draft_user': '2', 'topics': ['a', 'b', 'c']}, {{'asset_id': yyy, 'tags': ['e', 'f', 'g']}}]
     print("++++\n", changes)
     # to update record, loop through changes, get asset_id, delete that k-v, then use rest of dict to update record
     # {'asset_id': '8814243', 'sections': ['News', 'Sports'], 'categories': ['Football']}, {'asset_id': '8814196', 'sections': ['Sports'], 'categories': ['Football']}

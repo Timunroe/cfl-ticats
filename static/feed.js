@@ -63,7 +63,8 @@ $(document).ready(function () {
         Sports: {
             Basketball: {
                 NBA: ['Raptors'],
-                NCAA: [""],
+                WNBA: [],
+                NCAA: [],
             },
             Baseball: {
                 MLB: ['Jays'] // playoffs 'ALCS', 'ALDS', 'NLCS', 'NLDS', 'Wildcard'
@@ -88,6 +89,7 @@ $(document).ready(function () {
                 MLS: ['TFC'],
                 EPL: [],
                 WorldCup: [],
+                Europe: []
             },
             Tennis: {
                 ATP: [],

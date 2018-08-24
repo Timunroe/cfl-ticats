@@ -45,7 +45,7 @@ def fetch_data(s_url, b_json=True, l_filter=None):
 def fetch_css():
     print("++++++++++\nNow in fetch_css module ...")
     # get CSS from file, minify said css
-    css_file = {'input': open('./static/data.css', 'rb').read()}
+    css_file = {'input': open('./static/cfl_data.css', 'rb').read()}
     response = requests.post('https://cssminifier.com/raw', data=css_file)
     css = response.text
     return css

@@ -30,17 +30,17 @@ config = {
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=8',
+            'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
+            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=6',
             "filter": ["searchResultView"]
         },
         {
             "url":
-            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
+            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=6',
             "filter": ["searchResultView"]
         },
     ],
