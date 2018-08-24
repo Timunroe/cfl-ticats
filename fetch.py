@@ -4,7 +4,7 @@ import random
 import config as cfg
 
 
-def put_S3():
+def put_S3(page):
     print("++++++++++++\nNow in Put S3 module ...")
     s3 = boto3.resource('s3')
     js_file_name = cfg.config['project_name'] + '_' + cfg.config['name'] + '.js'
