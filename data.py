@@ -28,15 +28,17 @@ def save_file_overwrite(s_contents, s_name):
 def build_template(page=None):
     # NEED TO CREATE BUILD DIRECTORY IF IT DOESN'T EXIST!!!
     print("Building template for DNN")
+    print("+++\nPage is: ", page)
     template_data = {"posts": model.get_lineup('published', page)}
     # using Jinja2 string was fun, but let's get back to includes and other good stuff
     # html = Environment().from_string(tmpl.core_template).render(data=template_data)
     j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
-    html = j2_env.get_template('ext_CFL.html').render(data=template_data)
+    html_filename = f"ext_{page}.html"
+    html = j2_env.get_template(html_filename).render(data=template_data)
     html_minified = minify_html(html)
     css = fetch.fetch_css()
     script = Template(tmpl.script_template).substitute(css=css, minified=html_minified)
-    script_name = f"{cfg.config['project_name']}_{cfg.config['name']}.js"
+    script_name = f"{page}.js"
     save_file_overwrite(script, script_name)
     pass
 

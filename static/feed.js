@@ -9,10 +9,10 @@ function build_options(new_list, old_list, identifier, menu_kind) {
     html = new_list.map((val) => {
         if (old_list.includes(val)) {
             console.log("current selection");
-            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '" selected>' + val + "</option>";
+            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '" selected>' + val.toUpperCase() + "</option>";
         } else {
             console.log("new selection");
-            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '">' + val + "</option>";
+            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '">' + val.toUpperCase() + "</option>";
         }
     });
     console.log("HTML is: ", html);
@@ -46,13 +46,13 @@ $(document).ready(function () {
     $(".test").select2(); // initialize
 
     var taxonomy = {
-        News: {
+        news: {
             Municipal_Election: {
                 mayor: ["eisenberger", "graydon"],
                 wards: ["ward_1", "ward_2"]
             }
         },
-        Opinion: {
+        opinion: {
             Column: {
                 col: [""]
             },
@@ -60,45 +60,45 @@ $(document).ready(function () {
                 comm: [""]
             }
         },
-        Sports: {
-            Basketball: {
-                NBA: ['Raptors'],
-                WNBA: [],
-                NCAA: [],
+        sports: {
+            basketball: {
+                nba: ['Raptors'],
+                wnba: [],
+                ncaa: [],
             },
-            Baseball: {
-                MLB: ['Jays'] // playoffs 'ALCS', 'ALDS', 'NLCS', 'NLDS', 'Wildcard'
+            baseball: {
+                mlb: ['Jays'] // playoffs 'ALCS', 'ALDS', 'NLCS', 'NLDS', 'Wildcard'
             },
-            Football: {
-                CFL: ["Ticats"], // playoffs "East semifinal", "East final", "West semifinal", "West final",
-                NFL: ["Bills", "AFC", "NFC"], // playoffs "Wildcard", "Division", "Conference"
-                NCAA: ["BCS"],
-                USPORTS: ['McMaster'] // playoffs
+            football: {
+                cfl: ["Ticats"], // playoffs "East semifinal", "East final", "West semifinal", "West final",
+                nfl: ["Bills", "AFC", "NFC"], // playoffs "Wildcard", "Division", "Conference"
+                ncaa: ["BCS"],
+                usports: ['McMaster'] // playoffs
             },
-            Golf: {
-                PGA: [],
-                LPGA: [],
-                Champions: [],
+            golf: {
+                pga: [],
+                lpga: [],
+                champions: [],
             },
-            Hockey: {
-                NHL: ["Leafs", "Sabres"],
-                OHL: ["Bulldogs", "Rangers", "Storm"],
-                AHL: ["Marlies"]
+            hockey: {
+                nhl: ["Leafs", "Sabres"],
+                ohl: ["Bulldogs", "Rangers", "Storm"],
+                ahl: ["Marlies"]
             },
-            Soccer: {
-                MLS: ['TFC'],
-                EPL: [],
-                WorldCup: [],
-                Europe: []
+            soccer: {
+                mls: ['TFC'],
+                epl: [],
+                worldcup: [],
+                europe: []
             },
-            Tennis: {
-                ATP: [],
-                WTA: []
+            tennis: {
+                atp: [],
+                wta: []
             },
-            Auto: {
-                F1: [],
-                Indy: [],
-                NASCAR: [],
+            auto: {
+                f1: [],
+                indy: [],
+                nascar: [],
             }
         }
     };

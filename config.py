@@ -1,6 +1,4 @@
 config = {
-    "project_name": "ticats",
-    "name": "spec",
     "db_name": "db.json",
     "db_fields_dflt": {
         'desc_user': '',
@@ -22,28 +20,72 @@ config = {
         'img_api_thumb', 'pubdate_api', 'region_api', 'sections_api', 'site_api', 'tags_api',
         'timestamp', 'title_api', 'topics_api'
     ],
-    "apis": [
-        {
-            "url":
-            'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=5',
-            "filter": ["searchResultView"]
-        },
-        {
-            "url":
-            'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
-            "filter": ["searchResultView"]
-        },
-        {
-            "url":
-            'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=6',
-            "filter": ["searchResultView"]
-        },
-        {
-            "url":
-            'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=6',
-            "filter": ["searchResultView"]
-        },
-    ],
+    "apis": {
+        "default" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "cfl" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=ticats&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=5',
+                "filter": ["searchResultView"]
+            },
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=10',
+                "filter": ["searchResultView"]
+            },
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?guid=346a9bb4-5f2b-4838-b632-4abcc516eeca&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=5',
+                "filter": ["searchResultView"]
+            },
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?guid=ad33da77-38f2-42fc-ba36-392490bee98b&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=5',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "nfl" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=football&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "nhl" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=hockey&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "mlb" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=baseball&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "mls" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=soccer&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ],
+        "nba" : [
+            {
+                "url":
+                'http://api.zuza.com/search/article/default?&category=sports&subcategory=basketball&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                "filter": ["searchResultView"]
+            },
+        ]
+    },
     "munge": [],
     # section -> category -> topic -> tags
     "schedule": [

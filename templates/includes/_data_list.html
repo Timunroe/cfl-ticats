@@ -9,7 +9,7 @@
             </div>
             {%- endif -%}
             <div class="card-body-text flex-shrink-1">
-                <h5 class="card-title mb-0">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe|replace("WORLD CUP:", "") }}</h5>
+                <h5 class="card-title mb-0">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe }}</h5>
                 {% if not item['img_api_thumb'] %}
                     <p class="card-text small">{{ item['desc_user']|safe|truncate(150, False) if item['desc_user'] else item['desc_api']|safe|truncate(150, False) }}</p>
                 {%- endif -%}
@@ -38,7 +38,7 @@
             </div>
             {%- for category in ["sections", "categories", "topics", "tags"] %}
             <div class="small mr-3 mb-3" style="min-width: 150px;">
-                <label class="small mr-2" style="display: block;" for="{{id}}">{{category|upper}}</label>
+                <label class="small mr-2" style="display: block;" for="{{id}}">{{category}}</label>
                 {%- set str = category + '_user' -%}
                 {%- if item[str] -%}
                     {% set field = category + '_user' %}

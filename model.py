@@ -29,7 +29,7 @@ def parse_feed(items):
         ('categories_api', 'categoriesSubCategories', []),
         # images data
         ('img_api', 'superPortraitUrl', ''),
-        ('img_api_thumb', 'image150x100Url', ''),
+        ('img_api_thumb', 'thumbnailUrl', ''),
     ]
     posts = []
     for item in items:
@@ -85,7 +85,9 @@ def munge_feed(items):
         post['title_api'] = smartypants.smartypants(post['title_api'].strip())
         post['caption_api'] = smartypants.smartypants(post['caption_api'].strip())
         regex = re.compile(r"^.*\|\|", re.IGNORECASE)
-        post['categories_api'] = list(set([regex.sub('', x) for x in post['categories_api']]))
+        post['categories_api'] = list(set([regex.sub('', x.lower()) for x in post['categories_api']]))
+        if post['sections_api']:
+            post['sections_api'] = [x.lower() for x in post['sections_api']]
         post['desc_api'] = smartypants.smartypants(post['desc_api'].strip())
         post['desc_api'] = " ".join(post['desc_api'].split())
         date_object = datetime.datetime.strptime(post['pubdate_api'], '%Y-%m-%dT%H:%M:%S')
@@ -145,9 +147,10 @@ def db_insert(c_posts, check=True):
     return
 
 
-def get_new_data():
+def get_new_data(page="default"):
     print("++++++++++\nIn get_new_data module ...")
-    for api in cfg.config['apis']:
+    print("+++\nPage is: ", page)
+    for api in cfg.config['apis'][page]:
         data = fetch.fetch_data(s_url=api['url'], l_filter=api['filter'])
         raw_posts = parse_feed(data)
         posts = munge_feed(raw_posts)
@@ -175,10 +178,10 @@ def expire():
             db.remove(Record.asset_id == record['asset_id'])
 
 
-def get_posts(kind):
+def get_posts(kind, page=None):
     # kind = "published|drafts|archived|cfl|nfl|fbs|usports|mlb|mls|nhl|nba"
     # +++++++++++++++++++++++++++++
-    print("++++++++++++++\nIn get_lineup module ...")
+    print("++++++++++++++\nIn get_posts module ...")
     if kind == 'archives':
         db = TinyDB('archives.json')
         the_list = sorted(db.all(), key=itemgetter('pubdate_api'), reverse=True)
@@ -193,9 +196,26 @@ def get_posts(kind):
         if kind == 'published':
             # get records that are not in draft
             # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-            non_draft = db.search(Record.draft_user == '0')
-            # non_draft = [x for x in db.all() if x['draft_user'] == ['0']]
-            the_list = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
+            if page:
+                # print("++++\nPage is: ", page)
+                non_draft = db.search((Record.draft_user == '0') & (Record.topics_user.any(page)))
+                # print("record matches page\n")
+                # print(db.search(Record.topics_user.any(page)))
+                non_rank_list = sorted([x for x in non_draft if x['rank'] == '0'], key=itemgetter('pubdate_api'), reverse=True)
+                rank_list = sorted([x for x in non_draft if x['rank'] != '0'], key=itemgetter('rank'))
+                the_list = non_rank_list[:18]
+                # need to insert items from rank list
+                if rank_list:
+                    for item in rank_list:
+                        # what happens if items have same rank?
+                        # I think they get put in according to how list was sorted
+                        # so latest item with same rank is ahead of older item with same rank?
+                        idx = (int(item['rank']) - 1)
+                        the_list[idx:idx] = [item]
+            else:
+                non_draft = db.search(Record.draft_user == '0')
+                the_list = sorted(non_draft, key=itemgetter('pubdate_api'), reverse=True)
+                the_list = the_list[:30]
         if kind == "drafts":
             the_list = sorted(db.search(Record.draft_user != '0'), key=itemgetter('pubdate_api'), reverse=True)
         # print("Records going into lineup:")
@@ -205,22 +225,9 @@ def get_posts(kind):
 
 
 def get_lineup(kind, page=None):
-    # kind = "published|drafts|deleted"
-    # +++++++++++++++++++++++++++++
-    # how do we deal when draft/rank conflict?
-    # At the moment, a ranked item set to draft
-    # shows up in Lineup (by rank) without draft, AND on drafts page
-    # this each pages chooses items slightly differently
-    # Assumption rank overrides draft?
     print("++++++++++++++\nIn get_lineup module ...")
     db = TinyDB('db.json')
     Record = Query()
-    # get records that are 1. not in draft 2. not in rank list
-    # lineup = {} this not needed as we are returning list, not dict of lists
-    # get any records with rank not equal to 0
-    # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-    # print(f"rank list is: {rank_list}")
-
     if kind == 'published':
         # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
         non_draft = [x for x in db.all() if x['draft_user'] == '0']

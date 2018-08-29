@@ -43,8 +43,10 @@ def archives():
 
 @app.route('/preview/<page_id>')
 def preview(page_id):
+    print("+++\nPrevew page name is: ", page_id)
     file_name = f'pages_{page_id}_preview.html'
-    template_data = {"posts": model.get_lineup('published', page_id)}
+    template_data = {"posts": model.get_posts('published', page_id)}
+    # template_data = {"posts": model.get_lineup('published', page_id)}
     return render_template(file_name, data=template_data)
 
 
@@ -64,14 +66,15 @@ def lineup(page_id):
         if request.form['action'] == 'deploy':
             model.parse_form(request.form)
             data.build_template(page_id)
-            fetch.put_S3()  # sometimes tries to send before file above finished writing!!!!
+            fetch.put_S3(page_id)  # sometimes tries to send before file above finished writing!!!!
             # StackOverflow: https://stackoverflow.com/questions/36274868/saving-an-image-to-bytes-and-uploading-to-boto3-returning-content-md5-mismatch
             # My answer was to create using ".filename" then:
             #   os.rename(filename.replace(".filename","filename"))
             # This ensured the file was done being created.
         if request.form['action'] == 'fetch':
-            model.get_new_data()
-    template_data = {"items": model.get_lineup('published', page_id)}
+            model.get_new_data(page_id)
+    # template_data = {"items": model.get_lineup('published', page_id)}
+    template_data = {"items": model.get_posts('published', page_id)}
     return render_template(file_name, data=template_data, draft_check=False)
 
 
