@@ -72,7 +72,7 @@ $(document).ready(function () {
             football: {
                 cfl: ["Ticats"], // playoffs "East semifinal", "East final", "West semifinal", "West final",
                 nfl: ["Bills", "AFC", "NFC"], // playoffs "Wildcard", "Division", "Conference"
-                ncaa: ["BCS"],
+                fbs: ["BCS"],
                 usports: ['McMaster'] // playoffs
             },
             golf: {

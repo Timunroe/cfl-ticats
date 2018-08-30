@@ -1,17 +1,21 @@
 {% extends '_base.html' %} {% set active_page = page_id %}
 
 {% set links = {
-    'cfl': 'https://www.thespec.com/sports-story/8686062-hamilton-tiger-cats/',
-    'mlb': '#',
-    'nhl': '#',
-    'mls': '#',
-    'nba': '#',
+    'cfl': {'dnn_url': 'https://www.thespec.com/sports-story/8686062-hamilton-tiger-cats/', 'name': 'CFL-Ticats'},
+    'nfl': {'dnn_url': '#', 'name': 'NFL-Bills'},
+    'mlb': {'dnn_url': '#', 'name': 'MLB-Jays'},
+    'fbs': {'dnn_url': '#', 'name': 'FBS (NCAA Div 1 football)'},
+    'nhl': {'dnn_url': '#', 'name': 'NHL-Leafs-Sabres'},
+    'ohl': {'dnn_url': '#', 'name': 'OHL-Bulldogs'},
+    'ahl': {'dnn_url': '#', 'name': 'AHL-Marlies'},
+    'mls': {'dnn_url': '#', 'name': 'MLS-TFC'},
+    'nba': {'dnn_url': '#', 'name': 'NBA-Raptors'}
 }%}
 
 {% block body %}
 <main role="main" class="container">
-    <p>See live page <a href="{{ links[page_id] }}" target="_blank">on thespec.com</a>. </p>
-    <h3 class="">Lineup for {{page_id|upper}}</h3>
+    <p>See live page <a href="{{ links[page_id]['dnn_url'] }}" target="_blank">on thespec.com</a>. </p>
+    <h3 class="">Lineup for {{links[page_id]['name']}}</h3>
 
     <form action="/pages/{{page_id}}" method="post">
         <p>
