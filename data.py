@@ -29,11 +29,12 @@ def build_template(page=None):
     # NEED TO CREATE BUILD DIRECTORY IF IT DOESN'T EXIST!!!
     print("Building template for DNN")
     print("+++\nPage is: ", page)
-    template_data = {"posts": model.get_lineup('published', page)}
+    template_data = {"posts": model.get_posts('published', page)}
     # using Jinja2 string was fun, but let's get back to includes and other good stuff
     # html = Environment().from_string(tmpl.core_template).render(data=template_data)
     j2_env = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
     html_filename = f"ext_{page}.html"
+    print("HTML file name is: ", html_filename)
     html = j2_env.get_template(html_filename).render(data=template_data)
     html_minified = minify_html(html)
     css = fetch.fetch_css()

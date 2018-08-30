@@ -59,7 +59,7 @@ def about(page_id):
 @app.route('/pages/<page_id>', methods=['GET', 'POST'])
 def lineup(page_id):
     # get data
-    file_name = f'pages_{page_id}_lineup.html'
+    # file_name = f'pages_{page_id}_lineup.html'
     if request.method == 'POST':
         if request.form['action'] == 'save':
             model.parse_form(request.form)
@@ -75,7 +75,8 @@ def lineup(page_id):
             model.get_new_data(page_id)
     # template_data = {"items": model.get_lineup('published', page_id)}
     template_data = {"items": model.get_posts('published', page_id)}
-    return render_template(file_name, data=template_data, draft_check=False)
+    # return render_template(file_name, data=template_data, draft_check=False)
+    return render_template('pages_lineup.html', data=template_data, page_id=page_id)
 
 
 @app.route('/view/<record_id>', methods=['GET', 'POST'])

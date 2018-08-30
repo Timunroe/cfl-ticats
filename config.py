@@ -8,6 +8,7 @@ config = {
         'rank_time': '0',  # str
         'label_user': '',
         'title_user': '',
+        # below items should be copied from _API if item is new
         'sections_user': [],  # will always be a list from source
         'categories_user': [],  # either a list or does not exist from source
         'topics_user': [],  # list of strings

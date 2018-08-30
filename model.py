@@ -224,7 +224,7 @@ def get_posts(kind, page=None):
     return the_list
 
 
-def get_lineup(kind, page=None):
+""" def get_lineup(kind, page=None):
     print("++++++++++++++\nIn get_lineup module ...")
     db = TinyDB('db.json')
     Record = Query()
@@ -250,7 +250,7 @@ def get_lineup(kind, page=None):
     db.close()
     # print("Records going into lineup:")
     # print(records)
-    return the_list
+    return the_list """
 
 
 def request_item(form_data, asset_id):
@@ -270,7 +270,7 @@ def parse_form(form_data, kind="list"):
     # EXAMPLE OF INCOMING FORM DATA, where I set a published item to draft, then added 2 topics
     # {'action': ['save'], 'draft': ['8805675__draft_user__2', '', ''], 'sections': ['', '', '', ''], 'topics': ['8805675__topics__AHL', '8805675__topics__NBA'], 'categories': ['', '']}
     # added 1 category, topic, tag
-    # {'action': ['save'], 'draft': ['', '', ''], 'sections': ['', '', '', ''], 'categories': ['8805675__categories__Football', '', ''], 'topics': ['8805675__topics__CFL'], 'tags': ['8805675__tags__Ticats']}
+    # {'action': ['save'], 'draft': ['', '', ''], 'sections': ['', '', '', ''], 'categories': ['8805675__categories__Football', '', ''], 'topics': ['8805675__topics__cfl'], 'tags': ['8805675__tags__Ticats']}
 
     db = TinyDB('db.json')
     Record = Query()
