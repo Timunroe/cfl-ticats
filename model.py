@@ -168,7 +168,7 @@ def expire():
     db = TinyDB('db.json')
     db_old = TinyDB('archives.json')
     Record = Query()
-    age_limit = 30 * 24 * 60 * 60  # 30 days
+    age_limit = 20 * 24 * 60 * 60  # 30 days
     cutoff = ((datetime.datetime.now() - datetime.datetime(1970, 1, 1)).total_seconds()) - age_limit
     expired_list = db.search(Record.timestamp_epoch < cutoff)
     if expired_list:
@@ -222,35 +222,6 @@ def get_posts(kind, page=None):
         # print(records)
     db.close()
     return the_list
-
-
-""" def get_lineup(kind, page=None):
-    print("++++++++++++++\nIn get_lineup module ...")
-    db = TinyDB('db.json')
-    Record = Query()
-    if kind == 'published':
-        # rank_list = sorted(db.search(Record.rank != 0), key=itemgetter('rank'))
-        non_draft = [x for x in db.all() if x['draft_user'] == '0']
-        if page:
-            non_draft = [x for x in non_draft if page.upper() in x['topics_user']]
-        non_rank_list = sorted([x for x in non_draft if x['rank'] == '0'], key=itemgetter('pubdate_api'), reverse=True)
-        rank_list = sorted([x for x in non_draft if x['rank'] != '0'], key=itemgetter('rank'))
-        the_list = non_rank_list[:18]
-        # need to insert items from rank list
-        for item in rank_list:
-            # what happens if items have same rank?
-            # I think they get put in according to how list was sorted
-            # so latest item with same rank is ahead of older item with same rank?
-            idx = (int(item['rank']) - 1)
-            the_list[idx:idx] = [item]
-    if kind == "drafts":
-        # draft_sorted = sorted(draft, key=itemgetter('pubdate_api'), reverse=True)
-        the_list = sorted(db.search(Record.draft_user != '0'), key=itemgetter('pubdate_api'), reverse=True)
-    print("++++\nThe Lineup is: ", the_list)
-    db.close()
-    # print("Records going into lineup:")
-    # print(records)
-    return the_list """
 
 
 def request_item(form_data, asset_id):
