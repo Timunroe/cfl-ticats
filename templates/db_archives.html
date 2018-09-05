@@ -1,4 +1,4 @@
-{% extends '_base.html' %} {% set active_page = 'archives' %} {% block body %}
+{% extends '_base.html' %} {% set active_page = page_id %} {% block body %}
 <main role="main" class="container">
     <p>NOTE: These items are archived. A user has set them to archive, or they are more than 30 days old.</p>
     <form action="/db_archives" method="post">

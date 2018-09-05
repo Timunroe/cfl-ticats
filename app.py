@@ -22,7 +22,7 @@ def feed():
         if request.form['action'] == 'fetch':
             model.get_new_data()
     template_data = {"items": model.get_posts('published')}
-    return render_template('feed.html', data=template_data)
+    return render_template('feed.html', data=template_data, page_id='feed')
 
 
 @app.route('/db_drafts', methods=['GET', 'POST'])
@@ -32,13 +32,13 @@ def drafts():
     template_data = {"items": model.get_posts('drafts')}
     # print("template data is:")
     # print(template_data)
-    return render_template('db_drafts.html', data=template_data)
+    return render_template('db_drafts.html', data=template_data, page_id='drafts')
 
 
 @app.route('/db_archives')
 def archives():
     template_data = {"items": model.get_posts('archives')}
-    return render_template('db_archives.html', data=template_data)
+    return render_template('db_archives.html', data=template_data, page_id='archives')
 
 
 @app.route('/preview/<page_id>')
@@ -47,13 +47,13 @@ def preview(page_id):
     file_name = f'pages_{page_id}_preview.html'
     template_data = {"posts": model.get_posts('published', page_id)}
     # template_data = {"posts": model.get_lineup('published', page_id)}
-    return render_template(file_name, data=template_data)
+    return render_template(file_name, data=template_data, page_id=page_id)
 
 
 @app.route('/about/<page_id>')
 def about(page_id):
-    file_name = f'pages_{page_id}_about.html'
-    return render_template(file_name)
+    file_name = f'pages_about.html'
+    return render_template(file_name, page_id=page_id)
 
 
 @app.route('/pages/<page_id>', methods=['GET', 'POST'])

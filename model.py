@@ -141,8 +141,8 @@ def db_insert(c_posts, check=True):
                 # print("+++++++++++++++")
         # now update with all DNN fields
         db.update(post, Record.asset_id == post['asset_id'])
-        print("Upserting the following post:")
-        print(post)
+        # print("Upserting the following post:")
+        # print(post)
     db.close()
     return
 
@@ -246,7 +246,7 @@ def parse_form(form_data, kind="list"):
     db = TinyDB('db.json')
     Record = Query()
     print("incoming form data:")
-    print(form_data)
+    # print(form_data)
     # form data will have keys, values that may be lists or a single string.
     form_data_dict = dict(form_data)
     print("++++\nconverted to a dict")
