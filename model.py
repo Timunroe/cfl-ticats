@@ -201,8 +201,8 @@ def get_posts(kind, page=None):
                 non_draft = db.search((Record.draft_user == '0') & (Record.topics_user.any(page)))
                 # print("record matches page\n")
                 # print(db.search(Record.topics_user.any(page)))
-                non_rank_list = sorted([x for x in non_draft if x['rank'] == '0'], key=itemgetter('pubdate_api'), reverse=True)
-                rank_list = sorted([x for x in non_draft if x['rank'] != '0'], key=itemgetter('rank'))
+                non_rank_list = sorted([x for x in non_draft if x['rank'][0] == '0'], key=itemgetter('pubdate_api'), reverse=True)
+                rank_list = sorted([x for x in non_draft if x['rank'][0] != '0'], key=itemgetter('rank'))
                 the_list = non_rank_list[:18]
                 # need to insert items from rank list
                 if rank_list:
@@ -210,7 +210,7 @@ def get_posts(kind, page=None):
                         # what happens if items have same rank?
                         # I think they get put in according to how list was sorted
                         # so latest item with same rank is ahead of older item with same rank?
-                        idx = (int(item['rank']) - 1)
+                        idx = (int(item['rank'][0]) - 1)  # because rank is a list returned by form data
                         the_list[idx:idx] = [item]
             else:
                 non_draft = db.search(Record.draft_user == '0')

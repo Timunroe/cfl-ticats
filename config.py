@@ -4,7 +4,7 @@ config = {
         'desc_user': '',
         #  TODO: Use ints or strings? Forms always return strings!!! IN LISTS!!! Easier to use strings and convert if needed.
         'draft_user': '0',  # str 0:published, 1-2: draft
-        'rank': '0',  # str
+        'rank': ['0'],  # str  because html forms return strings, list when same name input
         'rank_time': '0',  # str
         'label_user': '',
         'title_user': '',

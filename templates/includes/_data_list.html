@@ -59,9 +59,9 @@
             <div class="mr-3">
                 <label class="small" style="" for="rank">RANK</label>
                 <select class="" name="rank">
-                {% for rank in [0, 1, 2, 3, 4, 5, 6] %}
+                {% for rank in ['0', '1', '2', '3', '4', '5', '6'] %}
                 <option
-                {% if item['rank'] == rank %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__rank__{{rank}}" {% endif %}
+                {% if item['rank'][0] == rank %} value selected="selected" {% else %} value="{{ item['asset_id'] }}__rank__{{rank}}" {% endif %}
                 >{{ rank }}</option>
                 {% endfor %}
                 </select>
