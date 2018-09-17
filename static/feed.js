@@ -9,10 +9,10 @@ function build_options(new_list, old_list, identifier, menu_kind) {
     html = new_list.map((val) => {
         if (old_list.includes(val)) {
             console.log("current selection");
-            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '" selected>' + val.toUpperCase() + "</option>";
+            return '<option value="' + val + '" selected>' + val.toUpperCase() + "</option>";
         } else {
             console.log("new selection");
-            return '<option value="' + identifier + '__' + menu_kind + '_user__' + val + '">' + val.toUpperCase() + "</option>";
+            return '<option value="' + val + '">' + val.toUpperCase() + "</option>";
         }
     });
     console.log("HTML is: ", html);
@@ -127,17 +127,18 @@ $(document).ready(function () {
             var nextMenuID = "#" + assetID + "__" + nextUp[menuKind];
             console.log("Next Menu ID is: ", nextMenuID);
             // Get the selection for the next menu in this module
-            var nextMenuSelection = $(nextMenuID).val().map(function (value, index) {
-                return ((value.split("__"))[2]).replace('_user', '');
-            });
+            var nextMenuSelection = $(nextMenuID).val()
+            // var nextMenuSelection = $(nextMenuID).val().map(function (value, index) {
+                // return ((value.split("__"))[2]).replace('_user', '');
+            // });
             console.log("nexMenuSelection is:", nextMenuSelection);
             // Calculate the possible options available for next menu
             // while re-selecting the current selection
             $.each(menuSelection, function (index, value) {
                 console.log("Value is: ", value);
-                value = (value.split("__"))[2]
+                // value = (value.split("__"))[2]
                 var temp = findProp(taxonomy, value);
-                console.log(temp);
+                console.log("temp is", temp);
                 if (menuKind == "topics") {
                     var nextMenuItems = temp[0];
                 } else {

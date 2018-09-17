@@ -127,6 +127,13 @@ def db_insert(c_posts, check=True):
             if not result:
                 new_post = cfg.config['db_fields_dflt'].copy()
                 new_post['asset_id'] = post['asset_id']
+                new_post['desc_user'] = post['desc_api']
+                new_post['label_user'] = post['label_api']
+                new_post['title_user'] = post['title_api']
+                new_post['sections_user'] = post['sections_api']
+                new_post['categories_user'] = post['categories_api']
+                new_post['topics_user'] = post['topics_api']
+                new_post['tags_user'] = post['tags_api']
                 # print("+++++++++++\n")
                 # print(f"Post title is: {post['title_api']}")
                 # if munge has set draft_api to true
@@ -233,8 +240,23 @@ def request_item(form_data, asset_id):
             post[field] = form_data[field]
     return post
 
-
 def parse_form(form_data, kind="list"):
+    db = TinyDB('db.json')
+    Record = Query()
+    print("incoming form data:")
+    print(form_data)
+    # form data will have keys, values that may be lists or a single string.
+    form_data_dict = dict(form_data)
+    print("++++\nconverted to a dict")
+    print(form_data_dict)
+    for key in form_data.keys():
+        for value in form_data.getlist(key):
+            print(key,":",value)
+    db.close()
+    return
+
+
+def parse_form_a(form_data, kind="list"):
     #  TODO: NEEDS TO BE REWRITTEN!!!
     #  All taxonomy will be a list (sections, categories, topics, tags)
     # 
@@ -246,7 +268,7 @@ def parse_form(form_data, kind="list"):
     db = TinyDB('db.json')
     Record = Query()
     print("incoming form data:")
-    # print(form_data)
+    print(form_data)
     # form data will have keys, values that may be lists or a single string.
     form_data_dict = dict(form_data)
     print("++++\nconverted to a dict")

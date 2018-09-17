@@ -25,7 +25,7 @@ config = {
         "default" : [
             {
                 "url":
-                'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=20',
+                'http://api.zuza.com/search/article/default?&category=sports&pageIndex=1&location=hamilton&sort=datedesc&pageSize=1&startindex=1&endindex=3',
                 "filter": ["searchResultView"]
             },
         ],

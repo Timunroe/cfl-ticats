@@ -9,12 +9,12 @@
             </div>
             {%- endif -%}
             <div class="card-body-text flex-shrink-1">
-                <h5 class="card-title mb-0">{{ item['title_user']|safe if item['title_user'] else item['title_api']|safe }}</h5>
+                <h5 class="card-title mb-0">{{ item['title_user']|safe }}</h5>
                 {% if not item['img_api_thumb'] %}
-                    <p class="card-text small">{{ item['desc_user']|safe|truncate(150, False) if item['desc_user'] else item['desc_api']|safe|truncate(150, False) }}</p>
+                    <p class="card-text small">{{ item['desc_user']|safe|truncate(150, False) }}</p>
                 {%- endif -%}
                 <p class="card-text small">
-                    <b>Label:</b> {{ item['label_user']|safe if item['label_user'] else item['label_api']|safe }} |
+                    <b>Label:</b> {{ item['label_user']|safe }} |
                     <b>Source</b>: {% if item['source_api'] != '' %} {{ item['source_api'] }} {% elif item['site_api'] == '' %}  CP {% else %} {{ item['site_api'] }} {% endif %} |
                     <b>Author</b>: {{ item['author_api']|safe }} |
                     <b>Published</b>: {{ item['timestamp'] }}
@@ -39,16 +39,11 @@
             {%- for category in ["sections", "categories", "topics", "tags"] %}
             <div class="small mr-3 mb-3" style="min-width: 150px;">
                 <label class="small mr-2" style="display: block;" for="{{id}}">{{category}}</label>
-                {%- set str = category + '_user' -%}
-                {%- if item[str] -%}
-                    {% set field = category + '_user' %}
-                {%- else -%}
-                    {%- set field = category + '_api' -%}
-                {%- endif -%}
-                <select multiple="multiple" class="custom-select test" name="{{category}}" size="2" id="{{item['asset_id']}}__{{category}}">
+                {% set field = category + '_user' %}
+                <select multiple="multiple" class="custom-select test" name="{{item['asset_id']}}__{{category}}" size="2" id="{{ item['asset_id']}}__{{category}}">
                 {%- if item[field] -%}
                     {%- for x in item[field] -%}
-                        <option value="{{ item['asset_id'] }}__{{category}}_user__{{x}}" selected="selected">{{ x }}</option>
+                        <option value="{{x}}" selected="selected">{{ x }}</option>
                     {%- endfor -%}
                 {%- endif -%} 
                 </select>
